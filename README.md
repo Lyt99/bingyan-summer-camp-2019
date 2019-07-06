@@ -38,14 +38,15 @@
 
 ### 2.框架
 
-> 在学习框架的过程中，了解一下MVC架构，并在热身项目中加以应用。
+> 在学习框架的过程中，了解一下MVC架构，并在热身项目中加以应用。推荐gin和echo二选一
 
-- gin（推荐）
+- gin
 
   - [gin英文文档](https://github.com/gin-gonic/gin)
-
   - [ Gin 文档中文翻译](https://learnku.com/docs/gin-gonic/2018/gin-readme/3819)
-
+- echo
+  - [echo英文文档](https://echo.labstack.com/guide)
+  - [echo文档中文翻译](http://go-echo.org/)
 - beego
 
   - [beego: 简约 & 强大并存的 Go 应用框架](https://beego.me/docs/intro/)
@@ -55,11 +56,6 @@
   - [Iris英文文档](https://github.com/kataras/iris)
 
   - [Iris文档中文翻译](https://studyiris.com/doc/)
-
-- echo(可以以后自学)
-
-  - [echo英文文档](https://echo.labstack.com/guide)
-  - [echo文档中文翻译](http://go-echo.org/)
 
 - 其他
 
@@ -124,4 +120,5 @@
   - 获取一个成员、所有成员信息
 
 - 普通用户
+  
   - 更改个人信息
