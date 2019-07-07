@@ -1,25 +1,3 @@
----
-title: MangoDB学习记录
-date: 2019-07-05
-categories: 
-  - 数据库
-tags:
-  - 冰岩夏令营
-  - 后端学习笔记
-top: false
-meta:
-  top:   # 这代表隐藏置顶标签，如果本文设置了置顶，就默默置顶
-  date:  # 这代表隐藏日期标签，不显示发布日期
-  categories:  # 这代表隐藏分类标签，不显示文章分类
-  counter:  # 这代表隐藏阅读计数标签，不显示阅读次数
-  updated:  # 这代表隐藏更新日期标签，不显示文章更新日期
-  share:  # 这代表隐藏分享标签，不显示分享按钮
-  tags:  # 这代表隐藏文章标签，不显示文章的tags
----
-
-在`<!-- more -->`之前编写文章的摘要内容！！！
-
-<!-- more -->
 
 ### 文档
 
@@ -42,6 +20,8 @@ MangoDB的核心概念之一
 多个文档组成集合，多个集合组成数据库
 
 ### MangoDB客户端
+
+安装与基本使用：略
 
 ### 数据类型
 
@@ -86,9 +66,10 @@ MangoDB的核心概念之一
     show profile                 show most recent system.profile entries with time >= 1ms
     show logs                    show the accessible logger names
     show log [name]              prints out the last segment of log in memory, 'global' is default
-    
-    
-    exit                         quit the mongo shell
+
+
+​    
+​    exit                         quit the mongo shell
 #### 数据库的增删查
 
 ```
@@ -121,4 +102,6 @@ db.foo.remove({"a":"1"})	 //删除foo中的指定文档
 db.foo.find()				//查询集合foo中的所有文档
 db.foo.find({"a","1"})   	 //指定条件查询集合foo中的某个文档
 ```
+
+<!--20190705-->
 
