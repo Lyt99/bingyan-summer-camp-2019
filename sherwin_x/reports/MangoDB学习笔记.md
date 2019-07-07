@@ -21,6 +21,8 @@ MangoDB的核心概念之一
 
 ### MangoDB客户端
 
+安装与基本使用：略
+
 ### 数据类型
 
 | 数据类型           | 描述                                                         |
@@ -67,7 +69,7 @@ MangoDB的核心概念之一
 
 
 ​    
-    exit                         quit the mongo shell
+​    exit                         quit the mongo shell
 #### 数据库的增删查
 
 ```
