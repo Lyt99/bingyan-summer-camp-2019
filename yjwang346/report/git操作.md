@@ -1,10 +1,4 @@
-# 每天学习内容
 
-### 7-5
-
-​		学习了Markdown以及git的一些操作，配置了Go的环境，创建了GitHub账号并学习GitHub的相关使用方法。
-
-​		*git需要熟练运用常用的操作，还有用git进行上传操作等。其他操作还需要进一步学习*
 
 > git的一些操作：
 >
@@ -40,3 +34,8 @@
 
 
 
+关于***fork***和***pull request***：
+
+*例子：*有一个仓库，叫Repo A。你如果要往里贡献代码，首先要Fork这个Repo，于是在你的Github账号下有		了一个Repo A2,。然后你在这个A2下工作，Commit，push等。然后你希望原始仓库Repo A合并你的工		作，你可以在Github上发起一个Pull Request，意思是请求Repo A的所有者从你的A2合并分支。如果被		审核通过并正式合并，这样你就为项目A做贡献了 
+
+![usage_ofgit](C:\Users\王源杰\Pictures\git.jpg)
