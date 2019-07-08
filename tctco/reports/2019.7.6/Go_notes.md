@@ -274,7 +274,7 @@ import "fmt"
 func sqrt(x float64) int {
     z := float64(1) // type conversion!
     i := 1
-    for ; (z*z - x)*(z*z - x) < 0.0001; i++{
+    for ; (z*z - x)*(z*z - x) > 0.0001; i++{
         z -= (z*z - x) / (2 * z)
     }
     return i
