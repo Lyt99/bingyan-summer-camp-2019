@@ -89,7 +89,7 @@ Git log will discard any logging info after the pointed version. To go back agai
 
 #### Working Directory and Stage (Index)
 
-![An image about Git](.\\pics\\Stage.jpg)
+![An image about Git](./pics/Stage.jpg)
 
 
 
@@ -217,11 +217,11 @@ Notes: ssh is faster than https protocol. Https also requires password each time
 
 ## Branches
 
-![branches_!](.\\pics\\branches_1.png)
+![branches_!](./pics/branches_1.png)
 
-![branches_!](.\\pics\\branches_2.png)
+![branches_!](./pics/branches_2.png)
 
-![branches_!](.\\pics\\branches_3.png)
+![branches_!](./pics/branches_3.png)
 
 ```bash
 git checkout -b dev
@@ -260,8 +260,8 @@ git merge --no-ff -m "message" dev
 
 This is more like the case of **collision**.
 
-![noff](.\\pics\\noff.png)
+![noff](./pics/noff.png)
 
 The common strategy for developing new products will be:
 
-![developing_strategy](.\\pics\\developing_strategy.png)
+![developing_strategy](./pics/developing_strategy.png)
