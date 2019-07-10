@@ -2,7 +2,9 @@
 
 特点：  创建 + 测试 ：创建和发送任何HTTP请求
 
-postman作为API自动化测试工具，能很好的模拟并向API发送Request，接收API发回的Response，并通过写在Test中的JS函数来对Response做断言
+​		我们知道对于一个API来说，输入的请求（Request）包括URL、method、Request Cookies、Request Headers和Request Body；收到请求后，API会回复响应（Response）,包括Response Headers和Response Body。我们之所以可以用Postman作为我们的API自动化测试工具，是因为：
+
+​		postman作为API自动化测试工具，能很好的模拟并向API发送Request，接收API发回的Response，并通过写在Test中的JS函数来对Response做断言
 
 1. Request部分
    1. 请求URL
