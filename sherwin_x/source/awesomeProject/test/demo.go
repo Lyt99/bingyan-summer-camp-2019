@@ -183,11 +183,12 @@ func AddUser(newUser msg) {
 }
 
 func UpdateHandler(c *gin.Context)  {
-	id,exist:=c.Get(identityKey)
-	if !exist{
+	id,err:=c.Get(identityKey)
+	if !err{
 		log.Println("id_get_failed")
 		fmt.Println(id)
 	}
+	//fmt.Println(id)
 	newdate:=msg{}
 	newdate.item=c.PostForm("item")
 	newdate.context=c.PostForm("context")
@@ -195,6 +196,7 @@ func UpdateHandler(c *gin.Context)  {
 		ctx, bson.M{"ID":id},
 		bson.M{"$set": bson.M{newdate.item: newdate.context}}); err == nil {
 		log.Println(result)
+		log.Println(id)
 	} else {
 		log.Fatal(err)
 	}
@@ -222,7 +224,7 @@ func findHandler(c *gin.Context)  {
 		log.Println("not found")
 	}
 	log.Println(result)
-	c.JSON(200,*result)
+	c.JSON(200,result)
 }
 func showHandler(c *gin.Context){
 	show:=msg{}
