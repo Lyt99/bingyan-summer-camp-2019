@@ -11,7 +11,7 @@ import (
 func AdminCallback(c *gin.Context)(interface{},error){
 	log.Println(">>>Admin Authoring<<<")
 	user:=model.LoginForm{}
-	_ =c.ShouldBindUri(&user)
+	_ =c.ShouldBind(&user)
 	if user.Id==2019&&user.Psw=="0711"{
 	return "200", nil
 	}else {
