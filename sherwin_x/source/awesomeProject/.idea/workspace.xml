@@ -1,52 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af18df37-0ca8-4f08-b30f-f53e0f9d2402" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../demoProject/.idea/demoProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/example_gin/html.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/templates/index.tmpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../demoProject/templates/postForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DemoProject/hello/hello.go" beforeDir="false" afterPath="$PROJECT_DIR$/../demoProject/hello/hello.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DemoProject/login/login.go" beforeDir="false" afterPath="$PROJECT_DIR$/../demoProject/login/login.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DemoProject/login/login.gtpl" beforeDir="false" afterPath="$PROJECT_DIR$/../demoProject/login/login.gtpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DemoProject/stringutil/reverse.go" beforeDir="false" afterPath="$PROJECT_DIR$/../demoProject/stringutil/reverse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/adminController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/adminController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/connectDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/connectDB.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/adminJwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/adminJwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/userJwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/userJwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/demo_v1/demo.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/demo_v1/demo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/demo_v2/demo.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/demo_v2/demo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_gin/method.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_gin/middleware.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_gin/postform.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/Main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/api/api.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/middleware/jwt/jwt.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/model/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/JwtDemo-master/model/user_ffjson.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/help/gin_jwt_help.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_jwt/jwt.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mongo-go-drive/basic_command.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mongo-go-drive/basic_command_2.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mongo-go-drive/connect.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/controller/FileController.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/controller/UserController.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/database/connectDB.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/main/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/model/commonResponse.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/model/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/template/fileUpload.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/example_mvc/template/insertUser.html" beforeDir="false" />
-    </list>
+    <list default="true" id="af18df37-0ca8-4f08-b30f-f53e0f9d2402" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
