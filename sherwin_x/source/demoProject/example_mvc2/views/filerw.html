@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+ 
+<html>
+  <head>
+    <title>{{.title}}</title>
+    <link rel="shortcut icon" href="/static/img/favicon.png" /> 
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script> 
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script> 
+  </head>       
+  <body>
+    <div class="container">
+      <!--创建text文件-->
+      <div style="width:100%;height:50px;">
+        <button onclick="createtxt()" class="btn btn-primary">创建text文件</button>
+        <label id="txtname"></label>
+     </div>
+      <!--写入文件-->
+      <div style="width:100%;height:300px;margin-top:20px;">
+          <label>输入内容:</label>
+          <textarea id="writeinfo" style="width:50%;height:200px;" class="form-control"></textarea>
+          <button value="写入内容" onclick="txtwrite()" class="btn btn-primary" style="margin-top:20px;">写入内容</button>
+      </div>
+     
+      <!--读取文件内容部分-->
+      <div style="width:100%;height:300px;">
+          <button value="读取内容" onclick="txtread()" class="btn btn-primary" style="margin-bottom:20px;">读取内容</button>            
+          <textarea id="readinfo" style="width:50%;height:200px;" class="form-control" ></textarea>
+      </div>
+         
+      <button onclick="deletetxt()" class="btn btn-primary">删除text文件</button>
+
+       </div>
+       
+        <!--JS部分-->
+        <script type="text/javascript">
+        
+          //创建text文件
+          function createtxt(){
+            $.ajax({
+               type:'post',
+               url:'/home/addfile',
+               data:{},
+               success:function(result){
+                   console.log('创建的结果')
+                   console.log(result)
+                   if(result.success){
+                     $("#txtname").html(result.path);
+                   }else{
+                     $("#txtname").html("新增失败");
+                   }
+                   
+               } 
+            })
+
+          }
+          //写入文件的内容
+          function txtwrite(){
+            $.ajax({
+               type:'post',
+               url:'/home/writefile',
+               data:{
+                   "info":$("#writeinfo").val(),
+                   "path":$("#txtname").html()
+               },
+               success:function(result){
+                   console.log('写入的结果')
+                   console.log(result)
+                   if(result.success){
+                      alert("写入成功")
+                      $("#showinfo").html(result.info);
+                   }else{
+                     alert("写入内容失败");
+                   }
+                   
+               } 
+            })
+          }
+          //读取文件的内容
+          function txtread(){
+            $.ajax({
+               type:'post',
+               url:'/home/readfile',
+               data:{
+                "path":$("#txtname").html()
+               },
+               success:function(result){
+                  console.log('读取的结果')
+                  console.log(result)
+                  if(result.success){
+                    $("#readinfo").html(result.content);
+                  }else{
+                    alert("读取内容失败");
+                  }
+                 
+               } 
+            })
+          }
+          
+           //删除text文件
+           function deletetxt(){
+            $.ajax({
+               type:'post',
+               url:'/home/deletefile',
+               data:{
+                "path":$("#txtname").html()
+               },
+               success:function(result){
+                   console.log('删除的结果')
+                   console.log(result)
+                   if(result.success){
+                      $("#txtname").html('');
+                      alert("删除成功");
+                   }else{
+                      alert("删除失败"); 
+                   }                 
+               } 
+            })
+
+          }
+        </script>
+    </body>
+</html>

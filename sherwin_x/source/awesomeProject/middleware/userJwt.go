@@ -10,12 +10,12 @@ import (
 )
 
 func GetUserToken() *jwt.GinJWTMiddleware {
-	userToken,err:=jwt.New(&jwt.GinJWTMiddleware{
+	userToken, err := jwt.New(&jwt.GinJWTMiddleware{
 
-		Realm:"test",
-		Key:[]byte("user"),
-		Timeout:time.Hour,
-		MaxRefresh:time.Hour,
+		Realm:      "test",
+		Key:        []byte("user"),
+		Timeout:    time.Hour,
+		MaxRefresh: time.Hour,
 		//put user id into token
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*model.LoginForm); ok {
@@ -25,7 +25,7 @@ func GetUserToken() *jwt.GinJWTMiddleware {
 			}
 			return jwt.MapClaims{}
 		},
-		Authenticator:controller.UserCallback,
+		Authenticator: controller.UserCallback,
 		//Authorizator: adminPrivCallback,
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
@@ -33,13 +33,15 @@ func GetUserToken() *jwt.GinJWTMiddleware {
 				"message": message,
 			})
 		},
-		IdentityKey: "id",
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
+		IdentityKey:   "id",
+		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
-		TimeFunc: time.Now,
+		TimeFunc:      time.Now,
 	})
 	if err != nil {
 		log.Fatal("JWT Error:" + err.Error())
 		return nil
-	}else {return userToken}
+	} else {
+		return userToken
+	}
 }

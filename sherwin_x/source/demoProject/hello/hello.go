@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"awesomeProject/test/stringutil"
+	"demoProject/stringutil"
 )
 
 func main() {

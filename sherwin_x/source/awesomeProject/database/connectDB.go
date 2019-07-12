@@ -11,8 +11,8 @@ import (
 	"time"
 )
 
-func GetDatabase() *mongo.Client{
-	ctx,_:=context.WithTimeout(context.Background(),10*time.Second)
+func GetDatabase() *mongo.Client {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		log.Fatal(err)

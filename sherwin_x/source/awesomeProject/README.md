@@ -21,13 +21,15 @@
 
 语言环境：[Go](https://golang.org/)
 
+数据库：MongoDB
+
 编译器：goland
 
 测试工具：postman
 
 **开始**
 
-连接MongoDB数据库(假设数据库路径在`/home/sherwin/tools/mongodb/data`)
+连接MongoDB数据库(数据库路径`/home/sherwin/tools/mongodb/data`)
 
 ```bash
 $ source ~/.bashrc
