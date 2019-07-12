@@ -143,9 +143,65 @@ router.GET("/:user/:password", func(c *gin.Context) {
 //使用JSON，另外还有XML、YAML等
 ```
 
+上面的代码功能是根据不同的请求，响应为不同的渲染方法（json，xml，yaml等）
+
 #### 4.2 HTML模板渲染
 
 gin支持加载HTML模板, 然后根据模板参数进行配置并返回相应的数据。
 
 先要使用 LoadHTMLGlob() 或者 LoadHTMLFiles()方法来加载模板文件，
+
+#### 4.3 文件响应
+
+```go
+router.StaticFS("/showDir", http.Dir("."))
+```
+
+这是访问当前项目目录下的内容
+
+```go
+router.StaticFS("/files", http.Dir("/bin"))
+```
+
+这是访问操作系统/bin下的内容
+
+```go
+router.StaticFile("/image", "./assets/miao.jpg")
+```
+
+显示选定的图片
+
+http.Dir("/public")是利用本地tmp目录实现一个文件系统；
+http.FileServer(http.Dir("/public"))返回一个Handler，其用来处理访问本地"/tmp"文件夹的HTTP请求；
+
+#### 4.4 重定向
+
+```go
+r.GET("/redirect", func(c *gin.Context) {
+        //支持内部和外部的重定向
+        c.Redirect(http.StatusMovedPermanently, "http://www.baidu.com/")
+    })
+```
+
+进行访问，我们可以看到通过访问的路径，可以重定向到百度地址。
+
+#### 4.5 同步异步
+
+
+
+### Page 5  中间件
+
+#### 5.1 全局中间件
+
+
+
+
+
+
+
+### Page 6 数据库
+
+基于database/sql的CURD操作
+
+​		对于Gin本身，并没有对数据库的操作，本文实现的是，通过http访问程序，然后操作mysql数据库库。
 
