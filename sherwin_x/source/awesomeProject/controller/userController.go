@@ -39,7 +39,6 @@ func SignHandler(c *gin.Context)  {
 		}
 	}
 }
-
 func idCheck(userMsg model.SignForm) error {
 	log.Println(">>>Id Checking<<<")
 	newUser := userMsg
@@ -68,7 +67,6 @@ func AddUser(newUser model.SignForm) error {
 		return nil
 	} else {return err}
 }
-
 
 //user authority
 func UserCallback(c *gin.Context) (interface{},error) {
@@ -109,7 +107,6 @@ func UpdateHandler(c *gin.Context)  {
 	id,err:=c.Get(model.IdentityKey)
 	if !err{
 		log.Println("id_get_failed")
-		fmt.Println(id)
 	}
 	//fmt.Println(id)
 	newdate:=model.UpdateForm{}

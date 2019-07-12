@@ -9,8 +9,6 @@ import (
 	"time"
 )
 
-
-
 func GetUserToken() *jwt.GinJWTMiddleware {
 	userToken,err:=jwt.New(&jwt.GinJWTMiddleware{
 
