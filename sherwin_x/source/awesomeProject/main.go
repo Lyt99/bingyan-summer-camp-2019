@@ -6,8 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//To do
-//1.
 func main(){
 	r:=gin.New()
 
@@ -15,20 +13,18 @@ func main(){
 	r.POST("/sign",controller.SignHandler)
 
 	user:=r.Group("/user")
-	userToken:=middleware.GetUserToken()
-	user.POST("/login",userToken.LoginHandler)
-	user.Use(userToken.MiddlewareFunc())
+	user.POST("/login",middleware.GetUserToken().LoginHandler)
+	user.Use(middleware.GetUserToken().MiddlewareFunc())
 	{
 		user.POST("/hello",controller.HelloUserHandler)
 		user.POST("/update",controller.UpdateHandler)
 	}
 
 	admin:=r.Group("/admin")
-	adminToken:=middleware.GetAdminToken()
-	admin.POST("/login",adminToken.LoginHandler)
-	admin.Use(adminToken.MiddlewareFunc())
+	admin.POST("/login",middleware.GetAdminToken().LoginHandler)
+	admin.Use(middleware.GetAdminToken().MiddlewareFunc())
 	{
-		admin.GET("/hello",controller.HelloAdminHandler)
+		admin.POST("/hello",controller.HelloAdminHandler)
 		admin.POST("/find",controller.FindHandler)
 		admin.POST("/show",controller.ShowHandler)
 		admin.POST("/delete",controller.DelHandler)

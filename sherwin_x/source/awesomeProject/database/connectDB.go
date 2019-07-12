@@ -1,5 +1,8 @@
 package database
 
+//source ~/.bashrc
+//mongod --dbpath /home/sherwin/tools/mongodb/data
+
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
