@@ -1,12 +1,4 @@
-### 1. gin框架介绍
-
-gin框架是Go语言进行web开发（api开发，微服务开发）框架中，功能和Martini框架类似的API，但是性能却特别好的一个框架（比Martini快将近40倍吧），所以如果你特别在乎性能，那么Gin会是一个比较好的选择。
-
-gin框架主要基于httprouter模块进行实现。gin框架和httprouter都是一个开源的框架。
-
-微服务本身即是一种开发模式，将业务拆分成为一个个细小的微服务模块，然后以api（rpc）方式对外提供实现，实现的功能是一个独立的业务模块，那么使用轻量级的gin便是一个不错的选择。
-
-### 2. gin框架包含的功能模块
+### 1. gin框架包含的功能模块
 
 gin框架包含了以下主要功能：
 
@@ -98,7 +90,7 @@ func main() {
 
 **/:name**这一栏里面，代码部分冒号  **:**  不可以省；冒号 :   是为了把name和user区分开来
 
-
+冒号`:`加上一个参数名组成路由参数
 
 ```go
 func main() {
@@ -129,7 +121,28 @@ MVC，相当于把上面的这些代码封装出来，
 
 
 
+### 1. 方法   c.DefaultQurey
 
+使用c.DefaultQurey方法读取参数，当参数不存在的时候，提供一个默认值如：
 
-Goland里面要习惯用命令行，运行时候就是Terminal栏里面输入"go run"+"exam.go" (文件名)
+```go
+firstname := c.DefaultQuery("firstname", "Guest")
+```
 
+**问题**这是什么意思：
+
+​		c.PostFROM解析的是`x-www-form-urlencoded`或`from-data`的参数
+
+### 2.c.String返回String类型的响应
+
+### 3.c.Query
+
+​		**url查询参数**假定一个 url 为 `/welcome?firstname=Jane&lastname=Doe`，我们想获取参数 `firstname` 的内容，可以使用`c.Query`方法。该方法始终返回一个 `string` 类型的数据。
+
+### 4.c.Post
+
+​		**表单和Body参数**典型的如 `POST` 提交的数据，无论是 `multipart/form-data`格式还是`application/x-www-form-urlencoded`格式，都可以使用 `c.PostForm`获取到参数。该方法始终返回一个 `string` 类型的数据。
+
+### 5.c.GetRawData
+
+​		一些复杂的场景下，如用户直接 `POST`一段 `json`字符串到应用中，我们需要获取原始数据，这时需要用 `c.GetRawData`来获取原始字节。
