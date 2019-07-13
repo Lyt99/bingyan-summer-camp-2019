@@ -34,9 +34,10 @@
 ```bash
 $ source ~/.bashrc
 $ mongod --dbpath /home/sherwin/tools/mongodb/data
+$ mongo
 ```
 
-编译器中运行，postman测试
+编译器中运行，postman测试,mongo中查看数据库实时状态
 
 
 

@@ -1,1 +1,5 @@
-package onlineMallsystem
+package main
+
+func main()  {
+
+}

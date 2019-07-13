@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body><form action="http://localhost:8080/sign" method="post" enctype="application/x-www-form-urlencoded">
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><input type="number" name="id"  id="id" min="1" max="10"/></td>
+            <td>将作为登录凭据且不可更改</td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" name="psw" id="psw"/></td>
+        </tr>
+        <tr>
+            <td>确认密码</td>
+            <td><input type="password" name="repsw" id="repsw"/></td>
+        </tr>
+        <tr>
+            <td>昵称</td>
+            <td><input type="text" name="name" id="name"/></td>
+        </tr>
+        <tr>
+            <td>电话</td>
+            <td><input type="text" name="tel" id="tel"/></td>
+        </tr>
+        <tr>
+            <td>邮箱 </td>
+            <td><input type="text" name="email" id="email"/></td>
+        </tr>
+        <tr>
+            <td><button><a href="#" onclick="return valForm()">注册</a></button></td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript" language="javascript">
+
+    function valForm(){
+        var userName=document.getElementById("name");
+        var pwd=document.getElementById("psw");
+        var repwd=document.getElementById("repsw");
+        var age=document.getElementById("age");
+        var email=document.getElementById("email");
+        if(userName.value==""){
+            alert("昵称不能为空");
+            return false;
+        }else if(userName.value.lenth<4||userName.value.lenth>16){
+            alert("昵称长度不符合要求\n你测很昵称长度为4-16个字符");
+            return false;
+        }else if(pwd.value!=repwd.value){
+            alert("两次密码不一致");
+            return false;
+        }
+        else if(email.value.indexOf(".")<0||email.value.indexOf("@")<0){
+            alert("邮箱名错误")
+            return false;
+        }else{
+            document.forms[0].submit();
+            return false;
+        }
+    }
+
+</script>

@@ -14,12 +14,14 @@ import (
 func AdminCallback(c *gin.Context) (interface{}, error) {
 	log.Println(">>>Admin Authoring<<<")
 	user := model.LoginForm{}
-	_ = c.ShouldBind(&user)
+	if err := c.ShouldBind(&user);err!=nil{
+		c.JSON(400, gin.H{"warning": "invalid massage"})
+		return nil, nil
+	}
 	if user.Id == 2019 && user.Psw == "0711" {
 		return "200", nil
-	} else {
-		return nil, jwt.ErrFailedAuthentication
 	}
+	return nil, jwt.ErrFailedAuthentication
 }
 
 // auth test
