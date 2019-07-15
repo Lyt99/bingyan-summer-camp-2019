@@ -69,3 +69,8 @@ stmt,err:=db.Prepare("INSERT INTO userinfo(username,departname,created) values(?
 result,err:=stmt.Exec("韩茹","技术部","2018-11-21")
 */
 ```
+
+
+
+### 1.4 DQL操作：查询
+
