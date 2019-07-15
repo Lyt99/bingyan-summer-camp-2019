@@ -13,10 +13,7 @@ import (
 
 )
 
-
-
 func GetUserToken() *jwt.GinJWTMiddleware {
-
 	userToken,err:=jwt.New(&jwt.GinJWTMiddleware{
 		Realm:"test",
 		Key:[]byte("user"),
@@ -30,15 +27,12 @@ func GetUserToken() *jwt.GinJWTMiddleware {
 					models.IdentityKey: v.Id,
 				}
 			}
-
 			return jwt.MapClaims{}
-
 		},
 
 		Authenticator:controllers.UserCallback,
 
 		//Authorizator: adminPrivCallback,
-
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
 				"code":    code,

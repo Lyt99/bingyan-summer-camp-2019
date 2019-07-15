@@ -2,16 +2,23 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
+	//"fmt"
 	"github.com/gin-gonic/gin"
-	"signin_Project/database"
+	//"project1/database"
+	"project1/controllers"
 )
 var db *sql.DB		//通过查询，知道db是*sql.DB类型
+
 func main(){
 	r := gin.New()
-	database.InitMysql()
-	login :=r.Group("/login")
-	//signup :=r.Group("/signup")
+	//controllers.InitMysql()
+	//user :=r.Group("/user")
+	r.POST("/login",controllers.Signup)
+	/*
+	admin :=r.Group("/admin")
+	admin.GET("/getuserinfo",controllers.Getuserinfo)
+	admin.GET("/getusersinfo",controllers.GetUsersinfo)
+	admin.POST("/deleteuser",controllers.Deletuser)
+	 */
 
-	r.POST("/signup",)
 }
