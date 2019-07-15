@@ -3,7 +3,6 @@ package middleware
 import (
 	"awesomeProject/controller"
 	jwt "github.com/appleboy/gin-jwt"
-	"github.com/gin-gonic/gin"
 	"log"
 	"time"
 )
@@ -15,13 +14,7 @@ func GetAdminToken() *jwt.GinJWTMiddleware {
 		Timeout:       time.Hour,
 		MaxRefresh:    time.Hour,
 		Authenticator: controller.AdminCallback,
-		//Authorizator: adminPrivCallback,
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
+		Unauthorized:  UnauthorizedFun,
 		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
 		TimeFunc:      time.Now,
