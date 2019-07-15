@@ -21,20 +21,23 @@
 
 语言环境：[Go](https://golang.org/)
 
+数据库：MongoDB
+
 编译器：goland
 
 测试工具：postman
 
 **开始**
 
-连接MongoDB数据库(假设数据库路径在`/home/sherwin/tools/mongodb/data`)
+连接MongoDB数据库(数据库路径`/home/sherwin/tools/mongodb/data`)
 
 ```bash
 $ source ~/.bashrc
 $ mongod --dbpath /home/sherwin/tools/mongodb/data
+$ mongo
 ```
 
-编译器中运行，postman测试
+编译器中运行，postman测试,mongo中查看数据库实时状态
 
 
 

@@ -13,14 +13,13 @@ import (
 )
 
 type msg struct {
-	id string
-	psw string
-	name string
-	tel string
-	email string
-	item string
+	id      string
+	psw     string
+	name    string
+	tel     string
+	email   string
+	item    string
 	context string
-
 }
 
 var identityKey = "id"
@@ -29,45 +28,48 @@ var userColl *mongo.Collection
 var ctx context.Context
 
 //init MongoDB
-func init(){
-	ctx,_:=context.WithTimeout(context.Background(),10*time.Second)
+func init() {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		log.Fatal(err)
 		fmt.Println("init failed")
 	}
 	//db = client.Database("demo")
-	userColl= client.Database("demo").Collection("user")
+	userColl = client.Database("demo").Collection("user")
 }
 
 //authority
-func userCallback(c *gin.Context) (interface{},error) {
-	user:=msg{}
-	user.id=c.PostForm("ID")
-	user.psw=c.PostForm("password")
+func userCallback(c *gin.Context) (interface{}, error) {
+	user := msg{}
+	user.id = c.PostForm("ID")
+	user.psw = c.PostForm("password")
 	result := userColl.FindOne(ctx, bson.M{
-		"ID": user.id,
-		"psw":user.psw})
+		"ID":  user.id,
+		"psw": user.psw})
 	if err := result.Decode(&user); err != nil {
 		fmt.Println("user login failed")
 		return nil, jwt.ErrFailedAuthentication
 	} else {
 		fmt.Println("user been login")
-		c.JSON(200,gin.H{"state":"success"})
+		c.JSON(200, gin.H{"state": "success"})
 		return &msg{
-			name:user.name,
-			tel:user.tel,
-			email:user.email,}, nil}
+			name:  user.name,
+			tel:   user.tel,
+			email: user.email,}, nil
+	}
 }
-func adminCallback(c *gin.Context)(interface{},error){
-	user:=msg{}
-	user.id=c.PostForm("ID")
-	user.psw=c.PostForm("password")
-	if user.id=="admin"&&user.psw=="12138"{
+func adminCallback(c *gin.Context) (interface{}, error) {
+	user := msg{}
+	user.id = c.PostForm("ID")
+	user.psw = c.PostForm("password")
+	if user.id == "admin" && user.psw == "12138" {
 		return "200", nil
-	}else {
-		return nil, jwt.ErrFailedAuthentication}
+	} else {
+		return nil, jwt.ErrFailedAuthentication
+	}
 }
+
 /*
 func authPrivCallback(data interface{}, c *gin.Context) bool {
 	user:=msg{}
@@ -78,17 +80,16 @@ func authPrivCallback(data interface{}, c *gin.Context) bool {
 	}else {return false}
 	}*/
 
-
-func main(){
-	r:=gin.New()
+func main() {
+	r := gin.New()
 
 	//Middleware
 	userMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
 
-		Realm:"test",
-		Key:[]byte("sherwin"),
-		Timeout:time.Hour,
-		MaxRefresh:time.Hour,
+		Realm:      "test",
+		Key:        []byte("sherwin"),
+		Timeout:    time.Hour,
+		MaxRefresh: time.Hour,
 		//put user id into token
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*msg); ok {
@@ -98,7 +99,7 @@ func main(){
 			}
 			return jwt.MapClaims{}
 		},
-		Authenticator:userCallback,
+		Authenticator: userCallback,
 		//Authorizator: adminPrivCallback,
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
@@ -106,17 +107,17 @@ func main(){
 				"message": message,
 			})
 		},
-		IdentityKey: "id",
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
+		IdentityKey:   "id",
+		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
-		TimeFunc: time.Now,
+		TimeFunc:      time.Now,
 	})
 	adminMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:"test",
-		Key:[]byte("sherwin"),
-		Timeout:time.Hour,
-		MaxRefresh:time.Hour,
-		Authenticator:adminCallback,
+		Realm:         "test",
+		Key:           []byte("sherwin"),
+		Timeout:       time.Hour,
+		MaxRefresh:    time.Hour,
+		Authenticator: adminCallback,
 		//Authorizator: adminPrivCallback,
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
@@ -124,47 +125,47 @@ func main(){
 				"message": message,
 			})
 		},
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
+		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
-		TimeFunc: time.Now,
+		TimeFunc:      time.Now,
 	})
 	if err != nil {
 		log.Fatal("JWT Error:" + err.Error())
 	}
 
 	//Router
-	r.POST("/sign",SignHander)
+	r.POST("/sign", SignHander)
 
-	user:=r.Group("/user")
-	user.POST("/login",userMiddleware.LoginHandler)
+	user := r.Group("/user")
+	user.POST("/login", userMiddleware.LoginHandler)
 	user.Use(userMiddleware.MiddlewareFunc())
 	{
-		user.POST("/update",UpdateHandler)
+		user.POST("/update", UpdateHandler)
 	}
 
-	admin:=r.Group("/admin")
-	admin.POST("/login",adminMiddleware.LoginHandler)
+	admin := r.Group("/admin")
+	admin.POST("/login", adminMiddleware.LoginHandler)
 	admin.Use(adminMiddleware.MiddlewareFunc())
 	{
-		admin.GET("/hello",helloHandler)
-		admin.POST("/find",findHandler)
-		admin.POST("/show",showHandler)
-		admin.POST("/delete",delHandler)
+		admin.GET("/hello", helloHandler)
+		admin.POST("/find", findHandler)
+		admin.POST("/show", showHandler)
+		admin.POST("/delete", delHandler)
 	}
 
 	_ = r.Run(":8080")
 }
 
-func SignHander(c *gin.Context)  {
+func SignHander(c *gin.Context) {
 	user := msg{}
-	user.id=c.PostForm("ID")
-	user.psw=c.PostForm("password")
-	user.name=c.PostForm("name")
-	user.tel=c.PostForm("TEL")
-	user.email=c.PostForm("e-mail")
+	user.id = c.PostForm("ID")
+	user.psw = c.PostForm("password")
+	user.name = c.PostForm("name")
+	user.tel = c.PostForm("TEL")
+	user.email = c.PostForm("e-mail")
 	fmt.Println("submiting...")
 	AddUser(user)
-	c.JSON(200,gin.H{"html":"success"})
+	c.JSON(200, gin.H{"html": "success"})
 	return
 }
 func AddUser(newUser msg) {
@@ -182,18 +183,18 @@ func AddUser(newUser msg) {
 	}
 }
 
-func UpdateHandler(c *gin.Context)  {
-	id,err:=c.Get(identityKey)
-	if !err{
+func UpdateHandler(c *gin.Context) {
+	id, err := c.Get(identityKey)
+	if !err {
 		log.Println("id_get_failed")
 		fmt.Println(id)
 	}
 	//fmt.Println(id)
-	newdate:=msg{}
-	newdate.item=c.PostForm("item")
-	newdate.context=c.PostForm("context")
+	newdate := msg{}
+	newdate.item = c.PostForm("item")
+	newdate.context = c.PostForm("context")
 	if result, err := userColl.UpdateOne(
-		ctx, bson.M{"ID":id},
+		ctx, bson.M{"ID": id},
 		bson.M{"$set": bson.M{newdate.item: newdate.context}}); err == nil {
 		log.Println(result)
 		log.Println(id)
@@ -201,33 +202,33 @@ func UpdateHandler(c *gin.Context)  {
 		log.Fatal(err)
 	}
 }
-func helloHandler(c *gin.Context)  {
-	c.JSON(200,gin.H{
-		"ID":"shrwin",
-		"text":"welcome",
+func helloHandler(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"ID":   "shrwin",
+		"text": "welcome",
 	})
 }
-func delHandler(c *gin.Context)  {
-	del:=msg{}
-	del.id=c.PostForm("ID")
+func delHandler(c *gin.Context) {
+	del := msg{}
+	del.id = c.PostForm("ID")
 	if result, err := userColl.DeleteOne(ctx, bson.M{"ID": del.id}); err == nil {
 		log.Println(result)
 	} else {
 		log.Println("delete failed")
 	}
 }
-func findHandler(c *gin.Context)  {
-	find:=msg{}
-	find.id=c.PostForm("ID")
+func findHandler(c *gin.Context) {
+	find := msg{}
+	find.id = c.PostForm("ID")
 	result := userColl.FindOne(ctx, bson.M{"ID": find.id})
 	if err := result.Decode(&find); err != nil {
 		log.Println("not found")
 	}
 	log.Println(result)
-	c.JSON(200,result)
+	c.JSON(200, result)
 }
-func showHandler(c *gin.Context){
-	show:=msg{}
-	show.id=c.PostForm("ID")
+func showHandler(c *gin.Context) {
+	show := msg{}
+	show.id = c.PostForm("ID")
 
 }
