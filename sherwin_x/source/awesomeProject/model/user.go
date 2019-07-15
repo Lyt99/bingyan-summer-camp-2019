@@ -4,6 +4,7 @@ var IdentityKey = "id"
 
 //user sign up message
 type SignForm struct {
+	//DBid          primitive.ObjectID `bson:"_id"`
 	Id    uint16 `json:"id" form:"id" binding:"required"`
 	Psw   string `json:"psw" form:"psw" binding:"required"`
 	Name  string `json:"name" form:"name" binding:"required"`

@@ -1,4 +1,4 @@
-package middleware
+package utils
 
 import (
 	"crypto/md5"
@@ -13,36 +13,19 @@ import (
 	"time"
 )
 
-//buyer token
-func GetBuyerToken() *jwt.GinJWTMiddleware {
-	adminTaken, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:         "test",
-		Key:           []byte("buyer"),
-		Timeout:       time.Hour,
-		MaxRefresh:    time.Hour,
-		Authenticator: UserCallback,
-		Unauthorized:  UnauthorizedFun,
-		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
-		TokenHeadName: "Bearer",
-		TimeFunc:      time.Now,
-	})
-	if err != nil {
-		log.Fatal("JWT Error:" + err.Error())
-		return nil
-	} else {
-		return adminTaken
-	}
-}
+var IdentityKey="id"
 
-//seller token
-func GetSellerToken() *jwt.GinJWTMiddleware {
-	adminTaken, err := jwt.New(&jwt.GinJWTMiddleware{
+//get user's token
+func GetToken(key string) *jwt.GinJWTMiddleware {
+	Taken, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:         "test",
-		Key:           []byte("seller"),
+		Key:           []byte(key),
 		Timeout:       time.Hour,
 		MaxRefresh:    time.Hour,
+		PayloadFunc:   PayloadFunc,
 		Authenticator: UserCallback,
-		Unauthorized:  UnauthorizedFun,
+		Unauthorized:  UnauthorizedFunc,
+		IdentityKey:   "id",
 		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
 		TimeFunc:      time.Now,
@@ -51,7 +34,7 @@ func GetSellerToken() *jwt.GinJWTMiddleware {
 		log.Fatal("JWT Error:" + err.Error())
 		return nil
 	} else {
-		return adminTaken
+		return Taken
 	}
 }
 
@@ -83,14 +66,25 @@ func UserCallback(c *gin.Context) (interface{}, error) {
 		"type": user.UserType,
 		"tel":  user.Tel,
 		"psw":  user.Psw}
-	if _, err := model.FindUser(filter); err != nil {
+	if res, err := model.FindUser(filter); err != nil {
 		return nil, errors.New("incorrect Password")
+	}else{
+		return res, nil
 	}
-	return nil, nil
+}
+
+//put user id into token
+func PayloadFunc(data interface{}) jwt.MapClaims {
+	if v, ok := data.(*conf.LoginForm); ok {
+		return jwt.MapClaims{
+			IdentityKey: v.Id,
+		}
+	}
+	return jwt.MapClaims{}
 }
 
 //return login failed message
-func UnauthorizedFun(c *gin.Context, code int, message string) {
+func UnauthorizedFunc(c *gin.Context, code int, message string) {
 	c.JSON(code, gin.H{
 		"code":    code,
 		"message": message,
@@ -100,5 +94,9 @@ func UnauthorizedFun(c *gin.Context, code int, message string) {
 //auth test
 func HelloHandler(c *gin.Context) {
 	log.Println(">>>User Auth Test<<<")
-	c.JSON(200, gin.H{"text": "Welcome!"})
+	if user,err:=c.Get("id");!err{
+		c.JSON(200,gin.H{"state":"wrong!"})
+	}else{
+		c.JSON(200, gin.H{"user":user})
+	}
 }

@@ -1,13 +1,13 @@
-package database
+package model
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
-	"onlineMallsystem/model"
+	"onlineMallsystem/conf"
 	"time"
 )
 
 //new user sign in
-func InsertUser(user model.User) error {
+func InsertUser(user conf.User) error {
 	if _, err := UserColl.InsertOne(ctx, bson.M{
 		"created_at": time.Now(),
 		"visitor":    0,
@@ -22,8 +22,8 @@ func InsertUser(user model.User) error {
 }
 
 //find one user match the given filter
-func FindUser(filter bson.M) (model.User, error) {
-	Msg := model.User{}
+func FindUser(filter bson.M) (conf.User, error) {
+	Msg := conf.User{}
 	result := UserColl.FindOne(ctx, filter)
 	if err := result.Decode(&Msg); err != nil {
 		return Msg, err

@@ -16,7 +16,6 @@ var ctx context.Context
 
 //connect database
 func init() {
-	log.Println(">>>Database Connecting<<<")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
@@ -39,7 +38,7 @@ func InsertUser(user model.SignForm) error {
 	return nil
 }
 
-//find one user massage with filter
+//find one user match the given filter
 func FindUser(filter bson.M) (model.SignForm, error) {
 	Msg := model.SignForm{}
 	result := UserColl.FindOne(ctx, filter)
@@ -47,6 +46,24 @@ func FindUser(filter bson.M) (model.SignForm, error) {
 		return Msg, err
 	}
 	return Msg, nil
+}
+
+//find all users match the given filter
+func ShowUsers(filter bson.M) (model.SignForm, error) {
+	cursor, err := UserColl.Find(ctx, filter)
+	if err != nil {
+		return model.SignForm{}, err
+	}
+
+	// iterate through all documents
+	var p model.SignForm
+	for cursor.Next(ctx) {
+		// decode the document
+		if err := cursor.Decode(&p); err != nil {
+			return model.SignForm{}, err
+		}
+	}
+	return p, nil
 }
 
 //update user massage
@@ -66,22 +83,4 @@ func DeleteUser(filter bson.M) error {
 		return err
 	}
 	return nil
-}
-
-//find all users match the given filter
-func ShowUsers(filter bson.M) (model.SignForm, error) {
-	cursor, err := UserColl.Find(ctx, filter)
-	if err != nil {
-		return model.SignForm{}, err
-	}
-
-	// iterate through all documents
-	var p model.SignForm
-	for cursor.Next(ctx) {
-		// decode the document
-		if err := cursor.Decode(&p); err != nil {
-			return model.SignForm{}, err
-		}
-	}
-	return p, nil
 }

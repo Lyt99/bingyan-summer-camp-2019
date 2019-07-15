@@ -53,8 +53,7 @@ func UserCallback(c *gin.Context) (interface{}, error) {
 
 	//bind login massage
 	if err := c.ShouldBind(&user); err != nil {
-		c.JSON(400, gin.H{"warning": "invalid massage"})
-		return nil, nil
+		return nil, jwt.ErrFailedAuthentication
 	}
 
 	//encode psw to md5

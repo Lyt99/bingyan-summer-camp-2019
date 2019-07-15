@@ -1,5 +1,7 @@
 package main
 
-func main()  {
+import "onlineMallsystem/router"
 
+func main() {
+	router.Router()
 }
