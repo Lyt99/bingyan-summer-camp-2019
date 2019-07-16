@@ -354,7 +354,6 @@ total_collect_count: 商品总收藏量
 
 ```json
 {
-    "username": "用户名",
     "password": "密码",
     "nickname": "昵称",
     "mobile": "手机号",
@@ -365,6 +364,8 @@ total_collect_count: 商品总收藏量
 **前端应保持不作修改的值为原值(密码除外)**
 
 **密码为空表示不修改密码**
+
+***不能修改用户名！***
 
 #### response
 
