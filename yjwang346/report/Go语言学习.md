@@ -86,7 +86,7 @@
 >
 > **interface**：是一组method的组合
 >
-> 
+> golang对于不确定返回值可以用interface{}代替
 >
 > **并发**
 >
