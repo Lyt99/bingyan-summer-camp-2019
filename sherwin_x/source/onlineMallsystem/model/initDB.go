@@ -9,7 +9,7 @@ import (
 )
 
 var UserColl *mongo.Collection
-var WareColl *mongo.Collection
+var CommodityColl *mongo.Collection
 var ctx context.Context
 
 //connect database
@@ -20,5 +20,5 @@ func init() {
 		log.Fatal(err)
 	}
 	UserColl = client.Database("mall").Collection("user")
-	WareColl = client.Database("mall").Collection("ware")
+	CommodityColl = client.Database("mall").Collection("commodity")
 }

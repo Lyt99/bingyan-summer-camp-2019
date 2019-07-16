@@ -2,32 +2,29 @@ package utils
 
 import (
 	"crypto/md5"
-	"errors"
 	jwt "github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
-	"onlineMallsystem/conf"
+	"onlineMallsystem/conf/Err"
+	"onlineMallsystem/conf/msg"
 	_ "onlineMallsystem/controller"
 	"onlineMallsystem/model"
 	"time"
 )
 
-var IdentityKey="id"
-
 //get user's token
-func GetToken(key string) *jwt.GinJWTMiddleware {
+func GetToken() *jwt.GinJWTMiddleware {
 	Taken, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:         "test",
-		Key:           []byte(key),
+		Key:           []byte("sherwin"),
 		Timeout:       time.Hour,
 		MaxRefresh:    time.Hour,
-		PayloadFunc:   PayloadFunc,
-		Authenticator: UserCallback,
-		Unauthorized:  UnauthorizedFunc,
+		PayloadFunc:   payload,
+		Authenticator: userCallback,
+		Unauthorized:  unauthorized,
+		LoginResponse: loginResponse,
 		IdentityKey:   "id",
-		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
-		TokenHeadName: "Bearer",
 		TimeFunc:      time.Now,
 	})
 	if err != nil {
@@ -39,21 +36,22 @@ func GetToken(key string) *jwt.GinJWTMiddleware {
 }
 
 //user authority
-func UserCallback(c *gin.Context) (interface{}, error) {
+func userCallback(c *gin.Context) (interface{}, error) {
 	log.Println(">>>User Authoring<<<")
-	user := conf.LoginForm{}
+	user := msg.LoginForm{}
 
 	//bind login massage
 	if err := c.ShouldBind(&user); err != nil {
-		return nil, errors.New("invalid message")
+		//c.JSON(200, Err.BindingFailed)
+		return nil, Err.BindingFailed
 	}
 
 	//check sign
 	filter := bson.M{
-		"type": user.UserType,
-		"tel":  user.Tel,}
+		"username": user.Username}
 	if _, err := model.FindUser(filter); err != nil {
-		return nil, errors.New("incorrect UserType or Tel")
+		//c.JSON(200, Err.UserNotExist)
+		return nil, Err.UserNotExist
 	}
 
 	//encode psw to md5
@@ -63,40 +61,51 @@ func UserCallback(c *gin.Context) (interface{}, error) {
 
 	//find user in db
 	filter = bson.M{
-		"type": user.UserType,
-		"tel":  user.Tel,
-		"psw":  user.Psw}
+		"username": user.Username,
+		"psw":      user.Psw}
 	if res, err := model.FindUser(filter); err != nil {
-		return nil, errors.New("incorrect Password")
-	}else{
-		return res, nil
+		//c.JSON(200, Err.WrongPsw)
+		return nil, Err.WrongPsw
+	} else {
+		user.Id = res.Id
 	}
+	return &msg.LoginForm{Id: user.Id,}, nil
 }
 
 //put user id into token
-func PayloadFunc(data interface{}) jwt.MapClaims {
-	if v, ok := data.(*conf.LoginForm); ok {
+func payload(data interface{}) jwt.MapClaims {
+	if v, ok := data.(*msg.LoginForm); ok {
 		return jwt.MapClaims{
-			IdentityKey: v.Id,
+			msg.IdentityKey: v.Id,
 		}
 	}
 	return jwt.MapClaims{}
 }
 
 //return login failed message
-func UnauthorizedFunc(c *gin.Context, code int, message string) {
-	c.JSON(code, gin.H{
-		"code":    code,
-		"message": message,
+func unauthorized(c *gin.Context, code int, message string) {
+	c.JSON(200, gin.H{
+		"success": false,
+		"error":   message,
+		"data":    "",
+	})
+}
+
+//return login success message
+func loginResponse(c *gin.Context, code int, token string, time time.Time) {
+	c.JSON(200, gin.H{
+		"success": true,
+		"error":   "",
+		"data":    token,
 	})
 }
 
 //auth test
 func HelloHandler(c *gin.Context) {
 	log.Println(">>>User Auth Test<<<")
-	if user,err:=c.Get("id");!err{
-		c.JSON(200,gin.H{"state":"wrong!"})
-	}else{
-		c.JSON(200, gin.H{"user":user})
+	if Id, err := c.Get("id"); !err {
+		c.JSON(200, gin.H{"state": "wrong!", "_id": Id})
+	} else {
+		c.JSON(200, gin.H{"state": "welcome!", "_id": Id})
 	}
 }
