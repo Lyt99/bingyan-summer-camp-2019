@@ -5,7 +5,7 @@ var IdentityKey = "id"
 type SignForm struct {
 	Id uint16		`json:"id" form:"id" binding:"required"`
 	Psw string		`json:"psw" form:"psw" binding:"required"`
-	Name string		`json:"name" form:"name" binding:"required"`
+	UserName string		`json:"name" form:"name" binding:"required"`
 	Tel string		`json:"tel" form:"tel" binding:"required"`
 	Email string	`json:"email" form:"email" binding:"required"`
 }

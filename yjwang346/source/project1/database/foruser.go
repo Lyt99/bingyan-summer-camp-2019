@@ -5,13 +5,14 @@ import (
 	_"github.com/go-sql-driver/mysql"
 	"fmt"
 	"log"
+	"project1/models"
 	"signin_Project/database"
 )
 
 
 func signup(){
 	// step2：打开数据库，相当于和数据库建立连接：db对象
-	db,err:=sql.Open("mysql","root:0@tcp(localhost:3306)/mytest?charset=utf8")
+	db,err:=sql.Open("mysql","root:0@tcp(localhost:3306)/bolgweb_gin?charset=utf8")
 	if err !=nil{
 		fmt.Println("连接失败。。")
 		return
@@ -39,9 +40,9 @@ func signup(){
 }
 
 //插入
-func InsertUser(user User) (int64, error) {
-	return database.ModifyDB("insert into users(username,password,status,createtime) values (?,?,?,?)",
-		user.Username, user.Password, user.Status, user.Createtime)
+func InsertUser(user models.SignForm) (int64, error) {
+	return database.ModifyDB("insert into users(Id,UserName,Psw,Tel,Email) values (?,?,?,?)",
+		user.Id,user.UserName, user.Psw, user.Tel, user.Email)
 }
 
 //按条件查询
