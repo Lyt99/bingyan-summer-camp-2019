@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"awesomeProject/database"
 	"awesomeProject/model"
-	"fmt"
 	jwt "github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,7 +14,7 @@ import (
 func AdminCallback(c *gin.Context) (interface{}, error) {
 	log.Println(">>>Admin Authoring<<<")
 	user := model.LoginForm{}
-	if err := c.ShouldBind(&user);err!=nil{
+	if err := c.ShouldBind(&user); err != nil {
 		c.JSON(400, gin.H{"warning": "invalid massage"})
 		return nil, nil
 	}
@@ -24,7 +24,8 @@ func AdminCallback(c *gin.Context) (interface{}, error) {
 	return nil, jwt.ErrFailedAuthentication
 }
 
-// auth test
+//auth test
+//localhost:8080/admin/hello
 func HelloAdminHandler(c *gin.Context) {
 	log.Println(">>>Admin Auth Test<<<")
 	c.JSON(200, gin.H{
@@ -36,49 +37,34 @@ func HelloAdminHandler(c *gin.Context) {
 //localhost:8080/admin/find
 func FindHandler(c *gin.Context) {
 	log.Println(">>>Admin Find User<<<")
-	var p model.SignForm
 	findId, _ := strconv.Atoi(c.PostForm("id"))
-	result := UserColl.FindOne(ctx, bson.M{"id": findId})
-	if err := result.Decode(&p); err != nil {
-		log.Println("not found")
+	filter := bson.M{"id": findId}
+	if res, err := database.FindUser(filter); err != nil {
+		c.JSON(200, gin.H{"state": "not found"})
 	} else {
-		fmt.Printf("post: %+v\n", p)
+		c.JSON(200, gin.H{"user": res})
 	}
 }
 
 //localhost:8080/admin/show
 func ShowHandler(c *gin.Context) {
 	log.Println(">>>Admin Show All Users<<<")
-	//filter := bson.M{"tags": bson.M{"$elemMatch": bson.M{"type": "user"}}}
-	filter := bson.M{"type": "user"}
-
-	// find all documents
-	cursor, err := UserColl.Find(ctx, filter)
-	if err != nil {
-		log.Println("err1")
-		//log.Fatal(err)
-	}
-
-	// iterate through all documents
-	for cursor.Next(ctx) {
-		var p model.SignForm
-		// decode the document
-		if err := cursor.Decode(&p); err != nil {
-			log.Println("err2")
-			//log.Fatal(err)
-		}
-		fmt.Printf("UserMassage:%+v\n", p)
+	if res, err := database.ShowUsers(bson.M{"type": "user"}); err != nil {
+		c.JSON(200, gin.H{"state": "no user match the condition"})
+	} else {
+		c.JSON(200, gin.H{"user": res})
 	}
 }
 
 //localhost:8080/admin/delete
+//BUG:delete a user dont exist return success...
 func DelHandler(c *gin.Context) {
-	delId, _ := strconv.Atoi(c.PostForm("id")) //change PostForm into int
 	log.Println(">>>Admin Delete User<<<")
-	if result, err := UserColl.DeleteOne(ctx, bson.M{"id": delId}); err != nil {
-		log.Println("delete failed")
-	} else {
-		log.Println(result)
-		log.Println("deleted user:", delId)
+	delId, _ := strconv.Atoi(c.PostForm("id"))
+	filter := bson.M{"id": delId}
+	if err := database.DeleteUser(filter); err != nil {
+		c.JSON(200, gin.H{"state": "delete failed"})
+		return
 	}
+	c.JSON(200, gin.H{"state": "delete success"})
 }

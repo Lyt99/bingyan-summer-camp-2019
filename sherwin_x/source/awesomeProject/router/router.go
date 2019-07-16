@@ -7,7 +7,7 @@ import (
 )
 
 //Demo System Routers
-func Router()  {
+func Router() {
 	r := gin.New()
 	r.POST("/sign", controller.SignHandler)
 

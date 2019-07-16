@@ -3,17 +3,12 @@ package controller
 import (
 	"awesomeProject/database"
 	"awesomeProject/model"
-	"context"
 	"crypto/md5"
 	jwt "github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
-
-var UserColl *mongo.Collection
-var ctx context.Context
 
 //localhost:8080/sign　　
 func SignHandler(c *gin.Context) {
@@ -58,8 +53,7 @@ func UserCallback(c *gin.Context) (interface{}, error) {
 
 	//bind login massage
 	if err := c.ShouldBind(&user); err != nil {
-		c.JSON(400, gin.H{"warning": "invalid massage"})
-		return nil, nil
+		return nil, jwt.ErrFailedAuthentication
 	}
 
 	//encode psw to md5
@@ -102,6 +96,8 @@ func UpdateHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"warning": "invalid massage"})
 		return
 	}
+
+	//该操作可通过在前端进行限制而精简
 	if newdate.Item != "psw" && newdate.Item != "name" && newdate.Item != "tel" && newdate.Item != "email" {
 		c.JSON(400, gin.H{"warning": "invalid item"})
 		return

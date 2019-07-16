@@ -12,27 +12,13 @@ import (
 func GetUserToken() *jwt.GinJWTMiddleware {
 	userToken, err := jwt.New(&jwt.GinJWTMiddleware{
 
-		Realm:      "test",
-		Key:        []byte("user"),
-		Timeout:    time.Hour,
-		MaxRefresh: time.Hour,
-		//put user id into token
-		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			if v, ok := data.(*model.LoginForm); ok {
-				return jwt.MapClaims{
-					model.IdentityKey: v.Id,
-				}
-			}
-			return jwt.MapClaims{}
-		},
+		Realm:         "test",
+		Key:           []byte("user"),
+		Timeout:       time.Hour,
+		MaxRefresh:    time.Hour,
+		PayloadFunc:   PayloadFunc,
 		Authenticator: controller.UserCallback,
-		//Authorizator: adminPrivCallback,
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
+		Unauthorized:  UnauthorizedFun,
 		IdentityKey:   "id",
 		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
@@ -44,4 +30,22 @@ func GetUserToken() *jwt.GinJWTMiddleware {
 	} else {
 		return userToken
 	}
+}
+
+//put user id into token
+func PayloadFunc(data interface{}) jwt.MapClaims {
+	if v, ok := data.(*model.LoginForm); ok {
+		return jwt.MapClaims{
+			model.IdentityKey: v.Id,
+		}
+	}
+	return jwt.MapClaims{}
+}
+
+//return login failed message
+func UnauthorizedFun(c *gin.Context, code int, message string) {
+	c.JSON(code, gin.H{
+		"code":    code,
+		"message": message,
+	})
 }
