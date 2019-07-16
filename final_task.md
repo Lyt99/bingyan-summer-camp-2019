@@ -415,7 +415,7 @@ total_collect_count: 商品总收藏量
 
 未登录等
 
-### 
+
 
 ### GET /me/collections
 
@@ -542,6 +542,28 @@ total_collect_count: 商品总收藏量
 用户不存在等
 
 
+
+### POST /pics
+
+上传图片，并返回图片地址
+
+#### request
+
+表单，file为图片文件，name为图片文件名
+
+#### response
+
+##### 成功
+
+```json
+{
+    "url": "https://blablabla.bla/bla.jpg"
+}
+```
+
+##### 失败
+
+名称不合法等
 
 
 
