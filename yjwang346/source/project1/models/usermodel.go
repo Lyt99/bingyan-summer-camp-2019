@@ -3,7 +3,7 @@ package models
 var IdentityKey = "id"
 //user sign up message
 type SignForm struct {
-	Id uint16		`json:"id" form:"id" binding:"required"`
+	Id int		`json:"id" form:"id" binding:"required"`
 	Psw string		`json:"psw" form:"psw" binding:"required"`
 	UserName string		`json:"name" form:"name" binding:"required"`
 	Tel string		`json:"tel" form:"tel" binding:"required"`

@@ -39,34 +39,44 @@
 > ype testInt func(int) bool // 声明了一个函数类型
 > /*前面部分函数声明省略了*/
 > func filter(slice []int, f testInt) []int {
->  var result []int
->  for _, value := range slice {
->      if f(value) {
->          result = append(result, value)
->      }
->  }
->  return result
+> var result []int
+> for _, value := range slice {
+>   if f(value) {
+>       result = append(result, value)
+>   }
+> }
+> return result
 > }
 > func main(){
->  slice := []int {1, 2, 3, 4, 5, 7}
->  fmt.Println("slice = ", slice)
->  odd := filter(slice, isOdd)    // 函数当做值来传递了
->  fmt.Println("Odd elements of slice are: ", odd)
->  even := filter(slice, isEven)  // 函数当做值来传递了
->  fmt.Println("Even elements of slice are: ", even)
+> slice := []int {1, 2, 3, 4, 5, 7}
+> fmt.Println("slice = ", slice)
+> odd := filter(slice, isOdd)    // 函数当做值来传递了
+> fmt.Println("Odd elements of slice are: ", odd)
+> even := filter(slice, isEven)  // 函数当做值来传递了
+> fmt.Println("Even elements of slice are: ", even)
 > }//区别就是filter两次引用的函数发生了变化
 > ```
 >
 > struct的匿名字段：能够实现字段的继承字段相同时最外层优先访问
 >
+> ***method***  是附属在一个给定的类型上的，他的语法和函数的声明语法几乎一样，只是在`func`后面增加了一个receiver(也就是method所依从的主体)。
+>
+> 可以定义在任何你自定义的类型、内置类型、struct等各种类型上面。
+>
+> method的语法如下：
+>
+> ```go
+> func (r ReceiverType) funcName(parameters) (results)
+> ```
+>
 > **method**的使用：(method area() 是属于Rectangle的)
 >
 > ```go
 > type Rectangle struct {
->  width, height float64
+> width, height float64
 > }
 > func (r Rectangle) area() float64 {
->  return r.width*r.height
+> return r.width*r.height
 > }
 > /*……*/
 > fmt.Println("Area of r1 is: ", r1.area())

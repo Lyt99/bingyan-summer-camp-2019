@@ -1,80 +1,56 @@
 package middleware
 
-
-
 import (
-
-	"project1/controllers"
-	"project1/models"
 	jwt "github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"log"
+	"project1/controllers"
 	"time"
-
 )
-
-func GetUserToken() *jwt.GinJWTMiddleware {
-	userToken,err:=jwt.New(&jwt.GinJWTMiddleware{
-		Realm:"test",
-		Key:[]byte("user"),
+//Create this middle ware
+func UserMiddleWareInit () *jwt.GinJWTMiddleware  {
+	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
+		Realm: "You have to login!",
+		Key:[]byte("secret key salt"),
 		Timeout:time.Hour,
 		MaxRefresh:time.Hour,
-
-		//put user id into token
-		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			if v, ok := data.(*models.LoginForm); ok {
-				return jwt.MapClaims{
-					models.IdentityKey: v.Id,
-				}
-			}
-			return jwt.MapClaims{}
-		},
-
-		Authenticator:controllers.UserCallback,
-
-		//Authorizator: adminPrivCallback,
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
-		IdentityKey: "id",
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
-		TokenHeadName: "Bearer",
-		TimeFunc: time.Now,
+		IdentityKey: "username",
+		// Callback function that should perform the authentication of the user based on userID and
+		// password. Must return true on success, false on failure. Required.
+		// Option return user data, if so, user data will be stored in Claim Array.
+		//必要项, 这个函数用来判断 User 信息是否合法，如果合法就反馈 true，否则就是 false, 认证的逻辑就在这里
+		Authenticator: controllers.LoginPost, // authentication
+		//Unauthorized:UnAuthFunc,
+		//整体上这次编程并没有考虑权限的因素
+		TokenLookup:"header: Authorization, query: token, cookie: jwt",
+		TokenHeadName:"Bearer",
+		TimeFunc:time.Now,
 	})
-
-	if err != nil {
-		log.Fatal("JWT Error:" + err.Error())
-		return nil
-	}else {return userToken}
+	if err != nil{
+		log.Fatal("JWT Error:"+err.Error())
+	}
+	return authMiddleware
 }
-
-
-func GetAdminToken() *jwt.GinJWTMiddleware{
-	adminTaken, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:"test",
-		Key:[]byte("sherwin"),
+func AdminMiddleWareInit () *jwt.GinJWTMiddleware  {
+	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
+		Realm: "You have to login!",
+		Key:[]byte("secret key salt"),
 		Timeout:time.Hour,
 		MaxRefresh:time.Hour,
-		Authenticator:controllers.AdminCallback,
-
-		//Authorizator: adminPrivCallback,
-
-		Unauthorized: func(c *gin.Context, code int, message string) {
-			c.JSON(code, gin.H{
-				"code":    code,
-				"message": message,
-			})
-		},
-		TokenLookup: "header: Authorization, query: token, cookie: jwt",
-		TokenHeadName: "Bearer",
-		TimeFunc: time.Now,
+		IdentityKey: "username",
+		// Callback function that should perform the authentication of the user based on userID and
+		// password. Must return true on success, false on failure. Required.
+		// Option return user data, if so, user data will be stored in Claim Array.
+		//必要项, 这个函数用来判断 User 信息是否合法，如果合法就反馈 true，否则就是 false, 认证的逻辑就在这里
+		Authenticator: controllers.Checkadmin, // authentication
+		//Unauthorized:UnAuthFunc,
+		//整体上这次编程并没有考虑权限的因素
+		TokenLookup:"header: Authorization, query: token, cookie: jwt",
+		TokenHeadName:"Bearer",
+		TimeFunc:time.Now,
 	})
-
-	if err != nil {
-		log.Fatal("JWT Error:" + err.Error())
-		return nil
-	}else {return adminTaken}
+	if err != nil{
+		log.Fatal("JWT Error:"+err.Error())
+	}
+	return authMiddleware
 }

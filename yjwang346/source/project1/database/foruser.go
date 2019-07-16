@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	_"github.com/go-sql-driver/mysql"
 	"fmt"
-	"log"
+	//"log"
 	"project1/models"
 	"signin_Project/database"
 )
@@ -92,7 +92,6 @@ func QueryUser() {
 		fmt.Println("查无数据。。")
 	} else {
 		fmt.Println(uid, username, departname, created)
-
 	}
 	db.Close()
 
