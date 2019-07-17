@@ -1,35 +1,47 @@
 package Err
 
 import "errors"
-var BindingFailed=errors.New("缺少必要数据或数据不合法")
-var BindingFailedJson=map[string]interface{}{
-	"success": false,
-	"error":"缺少必要数据或数据不合法",
-	"data":""}
 
-var UserExistJson =map[string]interface{}{
-	"success": false,
-	"error":"用户已存在",
-	"data":""}
+var WrongPsw = errors.New("密码错误")
+var BindingFailed = errors.New("缺少必要数据或数据不合法")
+var UserNotExist = errors.New("用户不存在")
 
-var InsertFailedJson=map[string]interface{}{
+var BindingFailedJson = map[string]interface{}{
 	"success": false,
-	"error":"服务器错误",
-	"data":""}
+	"error":   "缺少必要数据或数据不合法",
+	"data":    ""}
 
-var UserNotExist=errors.New("用户不存在")
-var UserNotExistJson=map[string]interface{}{
+var UserExistJson = map[string]interface{}{
 	"success": false,
-	"error":"用户不存在",
-	"data":""}
+	"error":   "用户已存在",
+	"data":    ""}
 
-var WrongPsw=errors.New("密码错误")
-var WrongPswJson=map[string]interface{}{
+var InsertFailedJson = map[string]interface{}{
 	"success": false,
-	"error":"密码错误",
-	"data":""}
+	"error":   "服务器错误",
+	"data":    ""}
 
-var GetFailedJson=map[string]interface{}{
+var GetFailedJson = map[string]interface{}{
 	"success": false,
-	"error":"获取失败",
-	"data":""}
+	"error":   "获取失败",
+	"data":    ""}
+
+var NoKeyJson = map[string]interface{}{
+	"success": false,
+	"error":   "缺少搜索关键词",
+	"data":    ""}
+
+var UserNotExistJson = map[string]interface{}{
+	"success": false,
+	"error":   "用户不存在",
+	"data":    ""}
+
+var DeleteFailedJson = map[string]interface{}{
+	"success": false,
+	"error":   "无删除权限",
+	"data":    ""}
+
+var CommodityNotExistJson = map[string]interface{}{
+	"success": false,
+	"error":   "商品不存在",
+	"data":    ""}

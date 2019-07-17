@@ -49,21 +49,23 @@ func FindUser(filter bson.M) (model.SignForm, error) {
 }
 
 //find all users match the given filter
-func ShowUsers(filter bson.M) (model.SignForm, error) {
+func ShowUsers(filter bson.M) ([]model.SignForm, error) {
 	cursor, err := UserColl.Find(ctx, filter)
 	if err != nil {
-		return model.SignForm{}, err
+		return nil, err
 	}
 
+	var res []model.SignForm
 	// iterate through all documents
-	var p model.SignForm
 	for cursor.Next(ctx) {
+		var p model.SignForm
 		// decode the document
 		if err := cursor.Decode(&p); err != nil {
-			return model.SignForm{}, err
+			return nil, err
 		}
+		res=append(res,p)
 	}
-	return p, nil
+	return res, err
 }
 
 //update user massage

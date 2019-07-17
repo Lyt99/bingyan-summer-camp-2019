@@ -15,8 +15,8 @@ type User struct {
 	Mobile   string `json:"mobile" form:"mobile" binding:"required"`
 	Email    string `json:"email" form:"email" binding:"required"`
 
-	TotalViewCount    uint16 `json:"total_view_count"`
-	TotalCollectCount uint16 `json:"total_collect_count"`
+	TotalViewCount    uint16 `bson:"total_view_count"`
+	TotalCollectCount uint16 `bson:"total_collect_count"`
 }
 
 type LoginForm struct {
@@ -28,7 +28,7 @@ type LoginForm struct {
 
 type Commodity struct {
 	Id      primitive.ObjectID `bson:"_id"`
-	PubUser primitive.ObjectID `bson:"pub_id"`
+	PubUser string `bson:"pub_id"`
 
 	Title    string  `json:"title" binding:"required"`
 	Desc     string  `json:"desc" binding:"required"`
@@ -36,6 +36,11 @@ type Commodity struct {
 	Price    float64 `json:"price"  binding:"required"`
 	Picture  string  `json:"picture"  binding:"required"`
 
-	ViewCount    uint16 `json:"view_count"`
-	CollectCount uint16 `json:"collect_count"`
+	ViewCount    uint16 `bson:"view_count"`
+	CollectCount uint16 `bson:"collect_count"`
+}
+
+type SimpleCommodity struct {
+	Id      primitive.ObjectID `bson:"_id"`
+	Title    string  `json:"title" binding:"required"`
 }

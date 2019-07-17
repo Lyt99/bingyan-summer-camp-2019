@@ -6,35 +6,29 @@ TO-DO：
 
 - [x] **登录**：POST /user/login
 
-  
-
-- [ ] **商品列表**：GET /commodities
-
-- [ ] **热搜词**：GET /commodities/hot
-
-- [x] **发布商品**：POST /commodities
-
-- [ ] **商品详情**：GET /commodity/:id
-
-- [ ] **删除商品**：DELETE /commodity/:id
+- [x] **查看某位用户资料**：GET /user/:id
 
   
 
-- [x] **个人信息**：GET /me
+- [x] **查看个人资料**：GET /me
+- [ ] **修改个人资料**：POST /me：　　　　　　　待完善
+- [x] **查看我的发布**：GET /me/commodities：　 待完善
+- [ ] **查看我的收藏**：GET /me/collections
+- [ ] **收藏某个商品**：POST /me/collections
+- [ ] **删除某个收藏**：DELETE /me/collections
 
-- [ ] **修改信息**：POST /me
 
-- [ ] **自己发布的商品**：GET /me/commodities
 
-- [ ] **自己收藏的商品**：GET /me/collections
+- [ ] **获取商品列表**：GET /commodities
+- [ ] **获取热搜词**：GET /commodities/hot
+- [x] **发布新商品**：POST /commodities
 
-- [ ] **收藏商品**：POST /me/collections
 
-- [ ] **删除收藏的商品**：DELETE /me/collections
 
-  
+- [x] **某个商品详情**：GET /commodity/:id
+- [x] **删除某个商品**：DELETE /commodity/:id
 
-- [ ] **查看他人信息**：GET /user/:id
+
 
 基本功能：
 
