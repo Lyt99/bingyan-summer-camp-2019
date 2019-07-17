@@ -19,7 +19,7 @@ func Router() {
 		//me.GET("/hello", utils.HelloHandler)
 		me.GET("", controller.ShowMe)
 		//me.POST("")
-		me.GET("/commodities",controller.MyCommodities)
+		me.GET("/commodities", controller.MyCommodities)
 		//me.GET("/collections")
 		//me.POST("/collections")
 		//me.DELETE("/collections")
@@ -30,13 +30,13 @@ func Router() {
 	{
 		//commodities.GET("")
 		//commodities.GET("/hot")
-		commodities.POST("",controller.NewCommodity)
+		commodities.POST("", controller.NewCommodity)
 	}
 
-	commodity:=r.Group("/commodity")
+	commodity := r.Group("/commodity")
 	commodity.Use(utils.GetToken().MiddlewareFunc())
 	{
-		commodity.GET("/:id",controller.DetailCommodity)
+		commodity.GET("/:id", controller.DetailCommodity)
 		//commodity.DELETE("/:id")
 	}
 

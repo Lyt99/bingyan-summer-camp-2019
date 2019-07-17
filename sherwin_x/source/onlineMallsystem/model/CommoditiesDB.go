@@ -9,14 +9,14 @@ import (
 //new
 func InsertCommodity(commodity msg.Commodity) error {
 	if _, err := CommodityColl.InsertOne(ctx, bson.M{
-		"pub_id":commodity.PubUser,
-		"title":commodity.Title,
-		"desc":commodity.Desc,
-		"category":commodity.Category,
-		"price":commodity.Price,
-		"picture":commodity.Picture,
-		"view_count":0,
-		"collect_count":0}); err != nil {
+		"pub_id":        commodity.PubUser,
+		"title":         commodity.Title,
+		"desc":          commodity.Desc,
+		"category":      commodity.Category,
+		"price":         commodity.Price,
+		"picture":       commodity.Picture,
+		"view_count":    0,
+		"collect_count": 0}); err != nil {
 		return err
 	}
 	return nil
@@ -46,16 +46,16 @@ func FindAllCommodity(filter bson.M) ([]msg.Commodity, error) {
 		if err := cursor.Decode(&p); err != nil {
 			return nil, err
 		}
-		res=append(res,p)
+		res = append(res, p)
 	}
-	return res,nil
+	return res, nil
 }
 
 //update
-func CommodityUpdate(id primitive.ObjectID, item string,i uint16) error {
-	if _,err := CommodityColl.UpdateOne(ctx,
+func CommodityUpdate(id primitive.ObjectID, item string, i uint16) error {
+	if _, err := CommodityColl.UpdateOne(ctx,
 		bson.M{"_id": id},
-		bson.M{"$set": bson.M{item: i}});err!=nil{
+		bson.M{"$set": bson.M{item: i}}); err != nil {
 		return err
 	}
 	return nil

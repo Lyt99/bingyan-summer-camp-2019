@@ -68,7 +68,7 @@ func ShowUser(c *gin.Context) {
 		return
 	}
 	//if key=myId, jump to ShowMeFunc
-	if userId==myId{
+	if userId == myId {
 		ShowMe(c)
 		return
 	}

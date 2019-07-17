@@ -8,13 +8,13 @@ import (
 //new user sign in
 func InsertUser(user msg.User) error {
 	if _, err := UserColl.InsertOne(ctx, bson.M{
-		"username": user.Username,
-		"psw":      user.Psw,
-		"nickname": user.Nickname,
-		"mobile":      user.Mobile,
-		"email":    user.Email,
-		"total_view_count":0,
-		"total_collect_count":0}); err != nil {
+		"username":            user.Username,
+		"psw":                 user.Psw,
+		"nickname":            user.Nickname,
+		"mobile":              user.Mobile,
+		"email":               user.Email,
+		"total_view_count":    0,
+		"total_collect_count": 0}); err != nil {
 		return err
 	}
 	return nil

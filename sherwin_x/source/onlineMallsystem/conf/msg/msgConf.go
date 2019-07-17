@@ -28,7 +28,7 @@ type LoginForm struct {
 
 type Commodity struct {
 	Id      primitive.ObjectID `bson:"_id"`
-	PubUser string `bson:"pub_id"`
+	PubUser string             `bson:"pub_id"`
 
 	Title    string  `json:"title" binding:"required"`
 	Desc     string  `json:"desc" binding:"required"`
@@ -41,6 +41,6 @@ type Commodity struct {
 }
 
 type SimpleCommodity struct {
-	Id      primitive.ObjectID `bson:"_id"`
-	Title    string  `json:"title" binding:"required"`
+	Id    primitive.ObjectID `bson:"_id"`
+	Title string             `json:"title" binding:"required"`
 }
