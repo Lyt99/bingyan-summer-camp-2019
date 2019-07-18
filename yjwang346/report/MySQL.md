@@ -74,3 +74,41 @@ result,err:=stmt.Exec("韩茹","技术部","2018-11-21")
 
 ### 1.4 DQL操作：查询
 
+```go
+//输出全部用户信息
+func GetUsersinfo(c *gin.Context){
+	rows,err := db.Query("SELECT * FROM userexam")
+    //row := db.QueryRow("SELECT id,username,password,tel,email FROM userinfo WHERE username=?", username)
+    //上面是输出单个的用户信息，
+    /*
+    results,err := db.Prepare("delete from userinfo where username = ?")
+	Check(err)
+	_, err = results.Exec(delete_username)
+	这是删除特定的用户
+    */
+	if err!=nil{
+		fmt.Println(err)
+		return
+	}
+	c.String(http.StatusOK,"所有用户的信息如下：")
+	for rows.Next(){
+		var s SignForm
+		err=rows.Scan(&s.Id,&s.UserName,&s.Psw,&s.Tel,&s.Email)
+		Check(err)
+		//似乎不用输出密码
+		fmt.Println(s)
+	}
+	rows.Close()
+}
+//userinfo是数据库中表的名字，要对号入座，不然找不到位置就无法输出信息
+```
+
+
+
+
+
+
+
+init函数在impot包的时候会自动运行，其他函数不能调用init函数。可以在init函数里面建立连接，之后就可以避免在每一个函数里面建立连接然后又关闭。
+
+不过该怎么关闭连接？因为连接数是有限的，不能一直开启连接而又不关闭连接。
