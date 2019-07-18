@@ -2,6 +2,7 @@ package model
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"onlineMallsystem/conf/msg"
 )
 
@@ -28,4 +29,14 @@ func FindUser(filter bson.M) (msg.User, error) {
 		return Msg, err
 	}
 	return Msg, nil
+}
+
+//update
+func UserUpdate(id primitive.ObjectID, item string, i uint16) error {
+	if _, err := UserColl.UpdateOne(ctx,
+		bson.M{"_id": id},
+		bson.M{"$set": bson.M{item: i}}); err != nil {
+		return err
+	}
+	return nil
 }

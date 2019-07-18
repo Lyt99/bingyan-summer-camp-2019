@@ -11,15 +11,19 @@ TO-DO：
   
 
 - [x] **查看个人资料**：GET /me
-- [ ] **修改个人资料**：POST /me：　　　　　　　待完善
-- [x] **查看我的发布**：GET /me/commodities：　 待完善
-- [ ] **查看我的收藏**：GET /me/collections
-- [ ] **收藏某个商品**：POST /me/collections
-- [ ] **删除某个收藏**：DELETE /me/collections
+
+- [ ] **修改个人资料**：POST /me：　　　　　　　
+- [x] **查看我的发布**：GET /me/commodities：　 
+
+- [x] **查看我的收藏**：GET /me/collections
+
+- [x] **收藏某个商品**：POST /me/collections
+
+- [x] **删除某个收藏**：DELETE /me/collections
 
 
 
-- [ ] **获取商品列表**：GET /commodities
+- [x] **获取商品列表**：GET /commodities
 - [ ] **获取热搜词**：GET /commodities/hot
 - [x] **发布新商品**：POST /commodities
 

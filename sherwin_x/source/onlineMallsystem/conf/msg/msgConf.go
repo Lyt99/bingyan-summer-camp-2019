@@ -6,6 +6,7 @@ import (
 
 var IdentityKey = "id"
 
+//user message
 type User struct {
 	Id primitive.ObjectID `bson:"_id"`
 
@@ -26,6 +27,7 @@ type LoginForm struct {
 	Psw      string `json:"password" form:"password" binding:"required"`
 }
 
+//commodity
 type Commodity struct {
 	Id      primitive.ObjectID `bson:"_id"`
 	PubUser string             `bson:"pub_id"`
@@ -33,14 +35,42 @@ type Commodity struct {
 	Title    string  `json:"title" binding:"required"`
 	Desc     string  `json:"desc" binding:"required"`
 	Category uint16  `json:"category" binding:"required"`
-	Price    float64 `json:"price"  binding:"required"`
-	Picture  string  `json:"picture"  binding:"required"`
+	Price    float64 `json:"price" binding:"required"`
+	Picture  string  `json:"picture" binding:"required"`
 
 	ViewCount    uint16 `bson:"view_count"`
 	CollectCount uint16 `bson:"collect_count"`
 }
 
-type SimpleCommodity struct {
+type MyCommodity struct {
 	Id    primitive.ObjectID `bson:"_id"`
-	Title string             `json:"title" binding:"required"`
+	Title string             ` bson:"title" `
+}
+
+type GetCommodity struct {
+	Page     uint16 `json:"page" binding:"required"`
+	Limit    uint16 `json:"limit" binding:"required"`
+	Category uint16 `json:"category" binding:"required"`
+	Keyword  string `json:"keyword" binding:"required"`
+}
+
+type ListCommodity struct {
+	Id       primitive.ObjectID `bson:"_id"`
+	Title    string             `bson:"title"`
+	Desc     string             `bson:"desc"`
+	Category uint16             `bson:"category"`
+	Price    float64            `bson:"price"`
+	Picture  string             `bson:"picture"`
+}
+
+//collection
+type Collection struct {
+	UserId string `json:"user_id" bson:"user_id" `
+	Id     string `json:"id" bson:"id" binding:"required"`
+	Title  string `json:"title" bson:"title" `
+}
+
+type MyCollection struct {
+	Id    string ` bson:"id"`
+	Title string ` bson:"title" `
 }

@@ -21,14 +21,14 @@ func main() {
 	me.GET("/hello", utils.HelloHandler) //测试
 	me.GET("", controller.ShowMe)        //查看个人资料
 	//me.POST("", controller.UpdateMe)                       //修改个人资料
-	me.GET("/commodities", controller.MyCommodities) //查看我的发布
-	//me.GET("/collections", controller.MyCollections)       //查看我的收藏
-	//me.POST("/collections", controller.NewCollection)      //收藏某个商品
-	//me.DELETE("/collections", controller.DeleteCollection) //删除某个收藏
+	me.GET("/commodities", controller.MyCommodities)       //查看我的发布
+	me.GET("/collections", controller.MyCollections)       //查看我的收藏
+	me.POST("/collections", controller.NewCollection)      //收藏某个商品
+	me.DELETE("/collections", controller.DeleteCollection) //删除某个收藏
 
 	commodities := r.Group("/commodities")
 	commodities.Use(utils.GetToken().MiddlewareFunc())
-	//commodities.GET("", controller.GetCommodities)   //获取商品列表
+	commodities.GET("", controller.GetCommodities) //获取商品列表
 	//commodities.GET("/hot", controller.GetHotSearch) //获取热搜词
 	commodities.POST("", controller.NewCommodity) //发布新商品
 
