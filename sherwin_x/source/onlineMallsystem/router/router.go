@@ -6,23 +6,38 @@ import (
 	"onlineMallsystem/utils"
 )
 
-func Router()  {
-	r:=gin.New()
+func Router() {
+	r := gin.New()
 
-	r.POST("/sign",controller.SignHandler)
+	r.POST("/user", controller.SignIn)
+	r.POST("/user/login", utils.GetToken().LoginHandler)
+	//r.GET(" /user/:id")
 
-	buyer:=r.Group("/buyer")
-	buyer.POST("/login", utils.GetToken("buyer").LoginHandler)
-	buyer.Use(utils.GetToken("buyer").MiddlewareFunc())
+	me := r.Group("/me")
+	me.Use(utils.GetToken().MiddlewareFunc())
 	{
-		buyer.POST("/hello", utils.HelloHandler)
+		//me.GET("/hello", utils.HelloHandler)
+		me.GET("", controller.ShowMe)
+		//me.POST("")
+		me.GET("/commodities", controller.MyCommodities)
+		//me.GET("/collections")
+		//me.POST("/collections")
+		//me.DELETE("/collections")
 	}
 
-	seller:=r.Group("/seller")
-	seller.POST("/login", utils.GetToken("seller").LoginHandler)
-	seller.Use(utils.GetToken("seller").MiddlewareFunc())
+	commodities := r.Group("/commodities")
+	commodities.Use(utils.GetToken().MiddlewareFunc())
 	{
-		seller.POST("/hello", utils.HelloHandler)
+		//commodities.GET("")
+		//commodities.GET("/hot")
+		commodities.POST("", controller.NewCommodity)
+	}
+
+	commodity := r.Group("/commodity")
+	commodity.Use(utils.GetToken().MiddlewareFunc())
+	{
+		commodity.GET("/:id", controller.DetailCommodity)
+		//commodity.DELETE("/:id")
 	}
 
 	_ = r.Run(":8080")

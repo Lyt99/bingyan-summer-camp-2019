@@ -3,6 +3,13 @@ package model
 var IdentityKey = "id"
 
 //user sign up message
+/*{
+	"id":1,
+	"psw":"123",
+	"name":"sherwin",
+	"tel":"10086",
+	"email":"18@16.com"
+}*/
 type SignForm struct {
 	//DBid          primitive.ObjectID `bson:"_id"`
 	Id    uint16 `json:"id" form:"id" binding:"required"`
