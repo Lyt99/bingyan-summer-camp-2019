@@ -33,8 +33,7 @@ func Signup(c *gin.Context){
 		c.JSON(http.StatusBadRequest, gin.H{"error错误": err.Error()})
 		return
 	}
-	password := newuser.Password
-	//password := model.AesEncrypt(newuser.Psw)//进行加密,密码换成了进行加密之后得到的密码
+	password := model.AesEncrypt(newuser.Password)//进行加密,密码换成了进行加密之后得到的密码
 	//先进行用户名查重
 	temp := database.Checksignup(db,newuser.UserName)
 	if temp==0{
