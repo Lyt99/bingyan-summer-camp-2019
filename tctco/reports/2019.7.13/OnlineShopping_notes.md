@@ -2,55 +2,58 @@
 
 ## Data Bases
 
-- Tags
+- hotwords
 
-  ```SQL
-  CREATEM TABLE `tags` (
-  	`id` INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      `tagname` varchar(10) NOT NULL,
-      PRIMARY KEY(id),
-      FOREIGN KEY(`good_id`) REFERENCES goods(id),
-  )
+  ```MYSQL
+  CREATE TABLE hotwords (
+  	`id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  	`word` varchar(30) NOT NULL UNIQUE,
+      `num` INT(6) NOT NULL DEFAULT 1
+  ) CHARACTER SET = utf8
   ```
-
   
 
+  
 - Users
 
-  ```sql
+  ```mysql
   CREATE TABLE `users` (
   	`id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
       `username` varchar(64) NOT NULL,
+      `nickname` varchar(64) NOT NULL,
       `password` varchar(64) NOT NULL,
-      `telephone` varchar(15) NOT NULL,
-  )
+      `mobile` varchar(15) NOT NULL,
+      `email` varchar(128) NOT NULL
+  ) CHARACTER SET = utf8
   ```
 
-- Goods
+- Commodities
 
-  ```SQL
-  CREATE TABLE `goods` (
+  ```mysql
+  CREATE TABLE `commodities` (
   	`id` INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      `goodname` varchar(64) NOT NULL,
-      `price` INT(8) NOT NULL,
-      `pic_path` varchar(128) NOT NULL,
-      `seller_id` INT(10) NOT NULL,
-      CONSTRAINT fk_ FOREIGN KEY(`seller_id`) REFERENCES users(id),
-  )
+      `title` varchar(64) NOT NULL,
+      `desc` TEXT NOT NULL,
+      `category` int(2) NOT NULL,
+      `price` INT(10) NOT NULL,
+      `picture` varchar(256) NOT NULL,
+      `pub_user` INT(10) NOT NULL,
+      `view_count` INT(10) NOT NULL DEFAULT 0,
+      `collect_count` INT(10) NOT NULL DEFAULT 0,
+      CONSTRAINT fk_pub_user_id FOREIGN KEY (`pub_user`) REFERENCES users(id)
+  ) CHARACTER SET = utf8
   ```
 
-- buyer2good ?
+- collections
 
   ```MYSQL
-  CREATE TABLE buyer2good (
+  CREATE TABLE collections (
   	id INT(10) AUTO_INCREMENT PRIAMRY KEY,
-      buyer_id INT(10),
-      FOERIGN KEY(buyer_id) REFERENCES user(id),
-      ON DELETE CASCADE ON UPDATE CASCADE,
-      good_id INT(10),
-      FOREIGN KEY(good_id) REFERENCES good(id),
-      ON DELETE CASCADE ON UPDATE CASCADE,
-  )
+      user_id INT(10) NOT NULL,
+      commodity_id INT(10) NOT NULL,
+      CONSTRAINT fk_user_id FOREIGN KEY (`user_id`) REFERENCES users(id),
+      CONSTRAINT fk_commodity_id FOREIGN KEY (`commodity_id`) REFERENCES commodity(id)
+  ) CHARACTER SET = utf8
   ```
-
+  
   
