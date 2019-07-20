@@ -35,13 +35,12 @@ func main() {
 	e.POST(SignUpURL, controller.CreateUser)
 	e.POST(LoginURL, controller.Login)
 
-	r :=e.Group("/User")
-	r.Use(middleware.JWT([]byte("secret")))
-	e.POST(UserGetUserInfoURL, controller.GetUserInfo)
-	e.POST(AdminGetUserInfoURL, controller.GetUserInfo)
-	e.POST(DelUserURL, controller.DelUser)
-	e.POST(UpdateURL, controller.UpdateUserInfo)
-	e.POST(GetAllUerInfo, controller.GetAllInfo)
+
+	e.POST(UserGetUserInfoURL, controller.GetUserInfo, m.IsLoggedIn)
+	e.POST(AdminGetUserInfoURL, controller.GetUserInfo, m.IsLoggedIn)
+	e.POST(DelUserURL, controller.DelUser, m.IsLoggedIn)
+	e.POST(UpdateURL, controller.UpdateUserInfo, m.IsLoggedIn)
+	e.POST(GetAllUerInfo, controller.GetAllInfo, m.IsLoggedIn)
 
 	e.Logger.Fatal(e.Start(":2333"))
 }

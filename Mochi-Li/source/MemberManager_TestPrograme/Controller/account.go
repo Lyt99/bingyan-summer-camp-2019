@@ -122,13 +122,12 @@ func Login(c echo.Context) (err error) {
 
 func GetUserInfo(c echo.Context) (err error) {
 
-	println("in GETUserInfo")
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	isAdmin := claims["admin"].(bool)
 	userID := claims["id"].(string)
 	queryID := c.FormValue("User_ID")
-	println(userID, isAdmin)
+
 	if userID != queryID && !isAdmin {
 		return context.Error(c, http.StatusForbidden, "没有权限", err)
 	}
@@ -142,11 +141,12 @@ func GetUserInfo(c echo.Context) (err error) {
 		"UserID":      queryID,
 		"PhoneNumber": u.PhoneNumber,
 		"Email":       u.Email,
+		"Name":		   u.Name,
 	})
 }
 
 func GetAllInfo(c echo.Context) (err error) {
-	user := c.Get("admin").(*jwt.Token)
+	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	isAdmin := claims["admin"].(bool)
 
@@ -161,7 +161,7 @@ func GetAllInfo(c echo.Context) (err error) {
 }
 
 func DelUser(c echo.Context) (err error) {
-	user := c.Get("admin").(*jwt.Token)
+	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	isAdmin := claims["admin"].(bool)
 	queryID := c.FormValue("User_ID")
@@ -182,7 +182,7 @@ func UpdateUserInfo(c echo.Context) (err error) {
 	if err = c.Bind(f); err != nil {
 		return context.Error(c, http.StatusBadRequest, "bad request", err)
 	}
-	user := c.Get("admin").(*jwt.Token)
+	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	isAdmin := claims["admin"].(bool)
 	userID := claims["id"].(string)
@@ -199,10 +199,13 @@ func UpdateUserInfo(c echo.Context) (err error) {
 	}
 
 	u := model.User{}
+	u.UserID = f.SendUserID()
 	u.Name = f.SendName()
 	u.PhoneNumber = f.SendPhoneNumber()
 	u.Password = f.SendPassword()
 	u.IsAdmin = f.SendIsAdmin()
+	u.Email = f.SendEmail()
+
 	if err = model.UpdateUser(f.UserID, u); err != nil {
 		return context.Error(c, http.StatusBadRequest, "输入有误", err)
 	}
