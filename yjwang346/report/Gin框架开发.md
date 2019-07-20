@@ -98,6 +98,47 @@ Gin提供了**两套绑定方法**：
 
 JSON的绑定，其实就是将request中的Body中的数据按照JSON格式进行解析，解析后存储到结构体对象中。
 
+```go
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+    "net/http"
+)
+
+type Login struct {
+    User     string `form:"username" json:"user" uri:"user" xml:"user"  binding:"required"`
+    Password string `form:"password" json:"password" uri:"password" xml:"password" binding:"required"`
+}
+//binding中的required 表示必须传递的参数
+
+func main() {
+    router := gin.Default()
+    //1.binding JSON
+    // Example for binding JSON ({"user": "hanru", "password": "hanru123"})
+    router.POST("/loginJSON", func(c *gin.Context) {
+        var json Login
+        //其实就是将request中的Body中的数据按照JSON格式解析到json变量中
+        if err := c.ShouldBindJSON(&json); err != nil {
+            c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+            return
+        }
+        //假如只传入一个User，那么会报错
+        if json.User != "hanru" || json.Password != "hanru123" {
+            c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+            return
+        }
+        c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+    })
+
+    router.Run(":8080")
+}
+```
+
+​		前面我们使用c.String返回响应，顾名思义则返回string类型。content-type是plain或者text。调用***c.JSON***   则返回json数据。其中  ***gin.H***  封装了生成json的方式，是一个强大的工具。使用golang可以像动态语言一样写字面量的json，对于嵌套json的实现，嵌套gin.H即可。
+
+
+
 #### 3.3 Form表单
 
 其实本质是将c中的request中的body数据解析到form中。
