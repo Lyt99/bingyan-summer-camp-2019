@@ -21,7 +21,7 @@ func UpdateUser(userID string, u User) error {
 
 	c := s.DB(DBName).C(userCollectionName)
 	return c.Update(bson.M{
-		"UserID": userID,
+		"User_ID": userID,
 	}, u)
 }
 
@@ -33,7 +33,7 @@ func DeleteUser(userID string) error {
 	c := s.DB(DBName).C(userCollectionName)
 
 	return c.Remove(bson.M{
-		"UserID": userID,
+		"User_ID": userID,
 	})
 }
 
@@ -66,7 +66,7 @@ func GetUserInfo(userID string) (u User, err error) {
 	c := s.DB(DBName).C(userCollectionName)
 
 	query := bson.M{
-		"UserID": userID,
+		"User_ID": userID,
 	}
 
 	err = c.Find(query).One(&u)
