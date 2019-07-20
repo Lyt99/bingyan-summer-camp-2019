@@ -3,6 +3,7 @@ package model
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"onlineMallsystem/conf/msg"
 )
 
@@ -33,20 +34,46 @@ func FindOneCommodity(filter bson.M) (msg.Commodity, error) {
 }
 
 //find all
-func FindAllCommodity(filter bson.M) ([]msg.Commodity, error) {
+func FindAllCommodity(filter bson.M) ([]msg.MyCommodity, error) {
 	cursor, err := CommodityColl.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
 	// iterate through all documents
-	var res []msg.Commodity
+	var res []msg.MyCommodity
 	for cursor.Next(ctx) {
-		var p msg.Commodity
+		var p msg.MyCommodity
 		// decode the document
 		if err := cursor.Decode(&p); err != nil {
 			return nil, err
 		}
 		res = append(res, p)
+	}
+	return res, nil
+}
+
+//get commodities list
+func GetCommoditiesList(page uint16, limit uint16, filter bson.M) ([]msg.ListCommodity, error) {
+	cursor, err := CommodityColl.Find(ctx, filter, options.Find().SetSort(bson.M{"_id": -1}))
+	if err != nil {
+		return nil, err
+	}
+	// iterate through all documents
+	var res []msg.ListCommodity
+	min := page * limit
+	max := min + limit
+	for i := uint16(0); cursor.Next(ctx); i++ {
+		for i >= min && i <= max {
+			var p msg.ListCommodity
+			// decode the document
+			if err := cursor.Decode(&p); err != nil {
+				return nil, err
+			}
+			res = append(res, p)
+		}
+		for i > max {
+			return nil, err
+		}
 	}
 	return res, nil
 }

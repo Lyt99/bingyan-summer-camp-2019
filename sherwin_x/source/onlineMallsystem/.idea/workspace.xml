@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71981bb0-3e89-460c-85aa-a3ff6414abb0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/model/collectionDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/Err/errorConf.go" beforeDir="false" afterPath="$PROJECT_DIR$/conf/Err/errorConf.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/msg/msgConf.go" beforeDir="false" afterPath="$PROJECT_DIR$/conf/msg/msgConf.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/commoditiesController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/commoditiesController.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/userController.go" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/CommoditiesDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/CommoditiesDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/CommoditiesDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/commoditiesDB.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/initDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/initDB.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/userDB.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/userDB.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,12 +23,88 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model/userDB.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!block;n#InsertUser#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/userController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="78" column="19" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
+            <state relative-caret-position="315">
+              <caret line="96" column="12" lean-forward="true" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="12" />
               <folding>
+                <element signature="n#!!block;n#SignIn#0" />
+                <element signature="n#!!block;n#ShowUser#0" />
+                <element signature="n#!!block;n#ShowMe#0" />
+                <element signature="n#!!block;n#UpdateMe#0" />
                 <element signature="n#!!block;n#MyCommodities#0" />
+                <element signature="n#!!block;n#MyCollections#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/collectionDB.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/test_main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="30" column="4" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conf/msg/msgConf.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1260">
+              <caret line="62" column="26" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/commoditiesDB.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="441">
+              <caret line="97" selection-start-line="97" selection-end-line="97" />
+              <folding>
+                <element signature="n#!!block;n#InsertCommodity#0" />
+                <element signature="n#!!block;n#FindOneCommodity#0" />
+                <element signature="n#!!block;n#FindAllCommodity#0" />
+                <element signature="n#!!block;n#GetCommoditiesList#0" />
+                <element signature="n#!!block;n#CommodityUpdate#0" />
+                <element signature="n#!!block;n#DeleteCommodity#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/commoditiesController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="118" selection-start-line="118" selection-end-line="118" />
+              <folding>
+                <element signature="n#!!block;n#GetCommodities#0" />
+                <element signature="n#!!block;n#NewCommodity#0" />
+                <element signature="n#!!block;n#DetailCommodity#0" />
+                <element signature="n#!!block;n#DeleteCommodity#0" />
               </folding>
             </state>
           </provider>
@@ -69,15 +149,18 @@
         <option value="$PROJECT_DIR$/conf/msgConf.go" />
         <option value="$PROJECT_DIR$/conf/errorConf.go" />
         <option value="$PROJECT_DIR$/conf/err.go" />
-        <option value="$PROJECT_DIR$/model/userDB.go" />
         <option value="$PROJECT_DIR$/utils/jwt.go" />
-        <option value="$PROJECT_DIR$/model/initDB.go" />
         <option value="$PROJECT_DIR$/API.md" />
         <option value="$PROJECT_DIR$/router/router.go" />
-        <option value="$PROJECT_DIR$/test/main.go" />
-        <option value="$PROJECT_DIR$/conf/Err/errorConf.go" />
         <option value="$PROJECT_DIR$/model/CommoditiesDB.go" />
+        <option value="$PROJECT_DIR$/conf/Err/errorConf.go" />
+        <option value="$PROJECT_DIR$/test/main.go" />
+        <option value="$PROJECT_DIR$/model/initDB.go" />
+        <option value="$PROJECT_DIR$/model/userDB.go" />
+        <option value="$PROJECT_DIR$/model/collectionDB.go" />
         <option value="$PROJECT_DIR$/conf/msg/msgConf.go" />
+        <option value="$PROJECT_DIR$/model/commoditiesDB.go" />
+        <option value="$PROJECT_DIR$/test/test_main.go" />
         <option value="$PROJECT_DIR$/controller/commoditiesController.go" />
         <option value="$PROJECT_DIR$/controller/userController.go" />
       </list>
@@ -149,7 +232,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build main.go (1)">
+  <component name="RunManager" selected="Go Build.go build test_main.go">
     <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="onlineMallsystem" />
       <working_directory value="$PROJECT_DIR$" />
@@ -177,8 +260,18 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="go build test_main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="onlineMallsystem" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/test/test_main.go" />
+      <package value="onlineMallsystem" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build test_main.go" />
         <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Build.go build test.go" />
@@ -187,13 +280,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4970588" visible="true" weight="0.15187165" />
-      <window_info id="Structure" order="1" sideWeight="0.5029412" side_tool="true" weight="0.2593583" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49641025" visible="true" weight="0.15508021" />
+      <window_info id="Structure" order="1" sideWeight="0.50358975" side_tool="true" weight="0.15347594" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32946146" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.28194296" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32923076" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28102565" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39915523" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -208,6 +302,27 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4970588" visible="true" weight="0.15347594" />
+      <window_info id="Structure" order="1" sideWeight="0.5029412" side_tool="true" weight="0.2593583" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32946146" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28102565" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39915523" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32946146" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -298,13 +413,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-378">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/go/pkg/mod/github.com/gin-gonic/gin@v1.4.0/tree.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -352,27 +460,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/userDB.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/mongo/cursor.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/mongo/collection.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="886" column="38" lean-forward="true" selection-start-line="886" selection-start-column="38" selection-end-line="886" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/go/pkg/mod/github.com/gin-gonic/gin@v1.4.0/context.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -412,53 +499,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/main.go">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="37" column="47" selection-start-line="37" selection-start-column="47" selection-end-line="37" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/initDB.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/CommoditiesDB.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-          <folding>
-            <element signature="e#15#90#0" expanded="true" />
-            <element signature="n#!!block;n#InsertCommodity#0" />
-          </folding>
+        <state relative-caret-position="21">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf/Err/errorConf.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="903">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
+        <state relative-caret-position="474">
+          <caret line="49" column="21" lean-forward="true" selection-start-line="49" selection-start-column="21" selection-end-line="49" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/initDB.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="15" column="18" lean-forward="true" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/mongo/cursor.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="73" column="17" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/mongo/options/findoptions.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding>
+            <element signature="e#6321#7601#0" />
+            <element signature="e#7699#9510#0" />
+            <element signature="e#13159#14390#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/mongo/collection.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="886" column="28" selection-start-line="886" selection-start-column="28" selection-end-line="886" selection-end-column="28" />
+          <folding>
+            <element signature="e#18663#19514#0" />
+            <element signature="e#19757#20606#0" />
+            <element signature="e#21862#23832#0" />
+            <element signature="e#24069#25120#0" />
+            <element signature="e#25409#26751#0" />
+            <element signature="e#27021#28284#0" />
+            <element signature="e#29083#29720#0" />
+            <element signature="e#29100#29133#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/pkg/mod/go.mongodb.org/mongo-driver@v1.0.4/bson/primitive/primitive.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/collectionDB.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="30" column="4" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf/msg/msgConf.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="30" column="46" selection-start-line="30" selection-start-column="46" selection-end-line="30" selection-end-column="46" />
+        <state relative-caret-position="1260">
+          <caret line="62" column="26" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/commoditiesDB.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+          <folding>
+            <element signature="n#!!block;n#InsertCommodity#0" />
+            <element signature="n#!!block;n#FindOneCommodity#0" />
+            <element signature="n#!!block;n#FindAllCommodity#0" />
+            <element signature="n#!!block;n#GetCommoditiesList#0" />
+            <element signature="n#!!block;n#CommodityUpdate#0" />
+            <element signature="n#!!block;n#DeleteCommodity#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/commoditiesController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1113">
-          <caret line="92" column="27" lean-forward="true" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
+        <state relative-caret-position="399">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
           <folding>
-            <element signature="e#252#257#0" />
-            <element signature="e#308#313#0" />
+            <element signature="n#!!block;n#GetCommodities#0" />
             <element signature="n#!!block;n#NewCommodity#0" />
+            <element signature="n#!!block;n#DetailCommodity#0" />
             <element signature="n#!!block;n#DeleteCommodity#0" />
           </folding>
         </state>
@@ -466,10 +614,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/userController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="78" column="19" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
+        <state relative-caret-position="315">
+          <caret line="96" column="12" lean-forward="true" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="12" />
           <folding>
+            <element signature="n#!!block;n#SignIn#0" />
+            <element signature="n#!!block;n#ShowUser#0" />
+            <element signature="n#!!block;n#ShowMe#0" />
+            <element signature="n#!!block;n#UpdateMe#0" />
             <element signature="n#!!block;n#MyCommodities#0" />
+            <element signature="n#!!block;n#MyCollections#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/userDB.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!block;n#InsertUser#0" />
           </folding>
         </state>
       </provider>

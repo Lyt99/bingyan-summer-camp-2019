@@ -45,3 +45,8 @@ var CommodityNotExistJson = map[string]interface{}{
 	"success": false,
 	"error":   "商品不存在",
 	"data":    ""}
+
+var CollectionExistJson = map[string]interface{}{
+	"success": false,
+	"error":   "收藏已存在",
+	"data":    ""}

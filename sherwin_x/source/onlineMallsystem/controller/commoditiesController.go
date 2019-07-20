@@ -13,7 +13,36 @@ import (
 
 //获取商品列表
 func GetCommodities(c *gin.Context) {
-
+	log.Println(">>>Get Commodity List<<<")
+	list := msg.GetCommodity{}
+	//bind massage
+	if err := c.ShouldBind(&list); err != nil {
+		c.JSON(200, Err.BindingFailedJson)
+		return
+	}
+	var filter bson.M
+	switch {
+	case list.Category == 0 && list.Keyword == "":
+		filter = bson.M{"": nil}
+	case list.Category != 0 && list.Keyword == "":
+		filter = bson.M{"category": list.Category}
+	case list.Category == 0 && list.Keyword != "":
+		filter = bson.M{"title": primitive.Regex{Pattern: list.Keyword, Options: ""}}
+	case list.Category != 0 && list.Keyword != "":
+		filter = bson.M{"category": list.Category, "title": primitive.Regex{Pattern: list.Keyword, Options: ""}}
+	}
+	if res, err := model.GetCommoditiesList(list.Page, list.Limit, filter); err != nil {
+		c.JSON(200, gin.H{
+			"success": true,
+			"error":   "",
+			"data":    ""})
+	} else {
+		//data:=map[string]interface{}{"id":res.id,"title": res}
+		c.JSON(200, gin.H{
+			"success": true,
+			"error":   "",
+			"data":    res})
+	}
 }
 
 //获取热搜词
@@ -26,7 +55,6 @@ func GetHotSearch(c *gin.Context) {
 func NewCommodity(c *gin.Context) {
 	log.Println(">>>Public New Commodity<<<")
 	newCommodity := msg.Commodity{}
-
 	//bind massage
 	if err := c.ShouldBind(&newCommodity); err != nil {
 		c.JSON(200, Err.BindingFailedJson)
