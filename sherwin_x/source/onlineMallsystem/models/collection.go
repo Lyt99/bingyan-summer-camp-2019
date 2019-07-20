@@ -1,14 +1,15 @@
-package model
+package models
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
-	"onlineMallsystem/conf/msg"
+	"onlineMallsystem/database"
+	"onlineMallsystem/models/msg"
 )
 
 //new collection
 func InsertCollection(new msg.Collection) error {
-	if _, err := CollectionColl.InsertOne(ctx, bson.M{
+	if _, err := database.CollectionColl.InsertOne(database.Ctx, bson.M{
 		"user_id": new.UserId,
 		"id":      new.Id,
 		"title":   new.Title,
@@ -21,7 +22,7 @@ func InsertCollection(new msg.Collection) error {
 //find one
 func FindOneCollection(filter bson.M) (msg.Collection, error) {
 	Msg := msg.Collection{}
-	result := CollectionColl.FindOne(ctx, filter)
+	result := database.CollectionColl.FindOne(database.Ctx, filter)
 	if err := result.Decode(&Msg); err != nil {
 		return Msg, err
 	}
@@ -30,14 +31,14 @@ func FindOneCollection(filter bson.M) (msg.Collection, error) {
 
 //find all
 func FindAllCollection(filter bson.M) ([]msg.MyCollection, error) {
-	cursor, err := CollectionColl.Find(ctx, filter)
+	cursor, err := database.CollectionColl.Find(database.Ctx, filter)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 	// iterate through all documents
 	var res []msg.MyCollection
-	for cursor.Next(ctx) {
+	for cursor.Next(database.Ctx) {
 		var p msg.MyCollection
 		// decode the document
 		if err := cursor.Decode(&p); err != nil {
@@ -52,7 +53,7 @@ func FindAllCollection(filter bson.M) ([]msg.MyCollection, error) {
 
 //delete one
 func DeleteOneCollection(filter bson.M) error {
-	if _, err := CollectionColl.DeleteOne(ctx, filter); err != nil {
+	if _, err := database.CollectionColl.DeleteOne(database.Ctx, filter); err != nil {
 		return err
 	}
 	return nil

@@ -48,9 +48,9 @@ type MyCommodity struct {
 }
 
 type GetCommodity struct {
-	Page     uint16 `json:"page" binding:"required"`
-	Limit    uint16 `json:"limit" binding:"required"`
-	Category uint16 `json:"category" binding:"required"`
+	Page     int    `json:"page" binding:"required"`
+	Limit    int    `json:"limit" binding:"required"`
+	Category int    `json:"category" binding:"required"`
 	Keyword  string `json:"keyword" binding:"required"`
 }
 
@@ -73,4 +73,14 @@ type Collection struct {
 type MyCollection struct {
 	Id    string ` bson:"id"`
 	Title string ` bson:"title" `
+}
+
+//keyword
+type Key struct {
+	Keyword string `bson:"keyword"`
+	Count   uint16 `bson:"count"`
+}
+
+type GetKey struct {
+	Keyword string `bson:"keyword"`
 }

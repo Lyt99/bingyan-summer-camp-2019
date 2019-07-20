@@ -1,7 +1,7 @@
 package main
 
-import "onlineMallsystem/router"
+import "onlineMallsystem/routers"
 
 func main() {
-	router.Router()
+	routers.InitRouter()
 }
