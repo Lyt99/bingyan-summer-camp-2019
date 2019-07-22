@@ -1,4 +1,4 @@
-package model
+package database
 
 import (
 	"context"
@@ -11,7 +11,8 @@ import (
 var UserColl *mongo.Collection
 var CommodityColl *mongo.Collection
 var CollectionColl *mongo.Collection
-var ctx context.Context
+var KeywordColl *mongo.Collection
+var Ctx context.Context
 
 //connect database
 func init() {
@@ -23,4 +24,5 @@ func init() {
 	UserColl = client.Database("mall").Collection("user")
 	CommodityColl = client.Database("mall").Collection("commodity")
 	CollectionColl = client.Database("mall").Collection("collection")
+	KeywordColl = client.Database("mall").Collection("keyword")
 }

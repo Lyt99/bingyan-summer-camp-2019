@@ -2,14 +2,13 @@ package utils
 
 import (
 	"crypto/md5"
-	jwt "github.com/appleboy/gin-jwt"
+	"errors"
+	"github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
-	"onlineMallsystem/conf/Err"
-	"onlineMallsystem/conf/msg"
-	_ "onlineMallsystem/controller"
-	"onlineMallsystem/model"
+	"onlineMallsystem/models"
+	"onlineMallsystem/models/msg"
 	"time"
 )
 
@@ -39,33 +38,29 @@ func GetToken() *jwt.GinJWTMiddleware {
 func userCallback(c *gin.Context) (interface{}, error) {
 	log.Println(">>>User Authoring<<<")
 	user := msg.LoginForm{}
-
 	//bind login massage
 	if err := c.ShouldBind(&user); err != nil {
-		//c.JSON(200, Err.BindingFailed)
-		return nil, Err.BindingFailed
+		return nil, errors.New("缺少必要数据或数据不合法")
 	}
-
-	//check sign
-	filter := bson.M{
-		"username": user.Username}
-	if _, err := model.FindUser(filter); err != nil {
-		//c.JSON(200, Err.UserNotExist)
-		return nil, Err.UserNotExist
-	}
-
+	/*
+		//check username
+		//optional(cause one more search time)
+		filter := bson.M{
+			"username": user.Username}
+		if _, err := models.FindUser(filter); err != nil {
+			return nil, errors.New("用户名错误或不存在")
+		}
+	*/
 	//encode psw to md5
 	pswMd5 := md5.New()
 	pswMd5.Write([]byte(user.Psw))
 	user.Psw = string(pswMd5.Sum(nil))
-
 	//find user in db
-	filter = bson.M{
+	filter := bson.M{
 		"username": user.Username,
 		"psw":      user.Psw}
-	if res, err := model.FindUser(filter); err != nil {
-		//c.JSON(200, Err.WrongPsw)
-		return nil, Err.WrongPsw
+	if res, err := models.FindUser(filter); err != nil {
+		return nil, errors.New("用户名或密码错误")
 	} else {
 		user.Id = res.Id
 	}
@@ -102,7 +97,7 @@ func loginResponse(c *gin.Context, code int, token string, time time.Time) {
 
 //auth test
 func HelloHandler(c *gin.Context) {
-	log.Println(">>>User Auth Test<<<")
+	log.Println(">>>Auth Test<<<")
 	if Id, err := c.Get("id"); !err {
 		c.JSON(200, gin.H{"state": "wrong!", "_id": Id})
 	} else {
