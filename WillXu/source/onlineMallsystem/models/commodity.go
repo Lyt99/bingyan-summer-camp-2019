@@ -1,21 +1,25 @@
-package model
+package models
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"onlineMallsystem/conf/msg"
+	"onlineMallsystem/database"
+	"onlineMallsystem/models/msg"
+	"time"
 )
 
 //new
 func InsertCommodity(commodity msg.Commodity) error {
-	if _, err := CommodityColl.InsertOne(ctx, bson.M{
+	if _, err := database.CommodityColl.InsertOne(database.Ctx, bson.M{
 		"pub_id":        commodity.PubUser,
 		"title":         commodity.Title,
 		"desc":          commodity.Desc,
 		"category":      commodity.Category,
 		"price":         commodity.Price,
 		"picture":       commodity.Picture,
+		"create_time":   time.Now().Unix(),
+		"type":          "commodity",
 		"view_count":    0,
 		"collect_count": 0}); err != nil {
 		return err
@@ -26,7 +30,7 @@ func InsertCommodity(commodity msg.Commodity) error {
 //find one
 func FindOneCommodity(filter bson.M) (msg.Commodity, error) {
 	Msg := msg.Commodity{}
-	result := CommodityColl.FindOne(ctx, filter)
+	result := database.CommodityColl.FindOne(database.Ctx, filter)
 	if err := result.Decode(&Msg); err != nil {
 		return Msg, err
 	}
@@ -35,13 +39,13 @@ func FindOneCommodity(filter bson.M) (msg.Commodity, error) {
 
 //find all
 func FindAllCommodity(filter bson.M) ([]msg.MyCommodity, error) {
-	cursor, err := CommodityColl.Find(ctx, filter)
+	cursor, err := database.CommodityColl.Find(database.Ctx, filter)
 	if err != nil {
 		return nil, err
 	}
 	// iterate through all documents
 	var res []msg.MyCommodity
-	for cursor.Next(ctx) {
+	for cursor.Next(database.Ctx) {
 		var p msg.MyCommodity
 		// decode the document
 		if err := cursor.Decode(&p); err != nil {
@@ -53,26 +57,23 @@ func FindAllCommodity(filter bson.M) ([]msg.MyCommodity, error) {
 }
 
 //get commodities list
-func GetCommoditiesList(page uint16, limit uint16, filter bson.M) ([]msg.ListCommodity, error) {
-	cursor, err := CommodityColl.Find(ctx, filter, options.Find().SetSort(bson.M{"_id": -1}))
+func GetCommoditiesList(page int, limit int, filter bson.M) ([]msg.ListCommodity, error) {
+	cursor, err := database.CommodityColl.Find(database.Ctx, filter, options.Find().SetSort(bson.M{"create_time": -1}))
 	if err != nil {
 		return nil, err
 	}
 	// iterate through all documents
-	var res []msg.ListCommodity
-	min := page * limit
+	min := (page - 1) * limit
 	max := min + limit
-	for i := uint16(0); cursor.Next(ctx); i++ {
-		for i >= min && i <= max {
-			var p msg.ListCommodity
-			// decode the document
-			if err := cursor.Decode(&p); err != nil {
-				return nil, err
-			}
-			res = append(res, p)
-		}
-		for i > max {
+	var res []msg.ListCommodity
+	for i := 0; cursor.Next(database.Ctx); i++ {
+		var p msg.ListCommodity
+		// decode the document
+		if err := cursor.Decode(&p); err != nil {
 			return nil, err
+		}
+		if i >= min && i < max {
+			res = append(res, p)
 		}
 	}
 	return res, nil
@@ -80,7 +81,7 @@ func GetCommoditiesList(page uint16, limit uint16, filter bson.M) ([]msg.ListCom
 
 //update
 func CommodityUpdate(id primitive.ObjectID, item string, i uint16) error {
-	if _, err := CommodityColl.UpdateOne(ctx,
+	if _, err := database.CommodityColl.UpdateOne(database.Ctx,
 		bson.M{"_id": id},
 		bson.M{"$set": bson.M{item: i}}); err != nil {
 		return err
@@ -90,7 +91,7 @@ func CommodityUpdate(id primitive.ObjectID, item string, i uint16) error {
 
 //delete one
 func DeleteCommodity(filter bson.M) error {
-	if _, err := CommodityColl.DeleteOne(ctx, filter); err != nil {
+	if _, err := database.CommodityColl.DeleteOne(database.Ctx, filter); err != nil {
 		return err
 	}
 	return nil

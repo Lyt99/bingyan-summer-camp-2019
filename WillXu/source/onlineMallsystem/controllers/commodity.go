@@ -1,4 +1,4 @@
-package controller
+package controllers
 
 import (
 	"fmt"
@@ -6,24 +6,40 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
-	"onlineMallsystem/conf/Err"
-	"onlineMallsystem/conf/msg"
-	"onlineMallsystem/model"
+	"onlineMallsystem/models"
+	"onlineMallsystem/models/Err"
+	"onlineMallsystem/models/msg"
+	"strconv"
 )
 
-//获取商品列表
+//获取商品列表:GET
+//localhost:8080/commodities
 func GetCommodities(c *gin.Context) {
 	log.Println(">>>Get Commodity List<<<")
 	list := msg.GetCommodity{}
 	//bind massage
-	if err := c.ShouldBind(&list); err != nil {
+	list.Page, _ = strconv.Atoi(c.Query("page"))
+	list.Limit, _ = strconv.Atoi(c.Query("limit"))
+	list.Category, _ = strconv.Atoi(c.DefaultQuery("category", "0"))
+	list.Keyword = c.DefaultQuery("keyword", "")
+	//keyword
+	if list.Keyword != "" {
+		key := msg.Key{Keyword: list.Keyword, Count: 1}
+		if err := models.KeyFunc(key); err != nil {
+			c.JSON(200, Err.GetFailedJson)
+			return
+		}
+	}
+	//check input err
+	if list.Page <= 0 || list.Limit <= 0||list.Category<0||list.Category>9 {
 		c.JSON(200, Err.BindingFailedJson)
 		return
 	}
+	//get list
 	var filter bson.M
 	switch {
 	case list.Category == 0 && list.Keyword == "":
-		filter = bson.M{"": nil}
+		filter = bson.M{"type": "commodity"}
 	case list.Category != 0 && list.Keyword == "":
 		filter = bson.M{"category": list.Category}
 	case list.Category == 0 && list.Keyword != "":
@@ -31,13 +47,12 @@ func GetCommodities(c *gin.Context) {
 	case list.Category != 0 && list.Keyword != "":
 		filter = bson.M{"category": list.Category, "title": primitive.Regex{Pattern: list.Keyword, Options: ""}}
 	}
-	if res, err := model.GetCommoditiesList(list.Page, list.Limit, filter); err != nil {
+	if res, err := models.GetCommoditiesList(list.Page, list.Limit, filter); err != nil {
 		c.JSON(200, gin.H{
 			"success": true,
 			"error":   "",
 			"data":    ""})
 	} else {
-		//data:=map[string]interface{}{"id":res.id,"title": res}
 		c.JSON(200, gin.H{
 			"success": true,
 			"error":   "",
@@ -45,12 +60,24 @@ func GetCommodities(c *gin.Context) {
 	}
 }
 
-//获取热搜词
+//获取热搜词:GET
+//localhost:8080/commodities/hot
 func GetHotSearch(c *gin.Context) {
-
+	if res, err := models.FindAllKeyword(); err != nil {
+		log.Println(err)
+		c.JSON(200, gin.H{
+			"success": true,
+			"error":   "",
+			"data":    ""})
+	} else {
+		c.JSON(200, gin.H{
+			"success": true,
+			"error":   "",
+			"data":    res})
+	}
 }
 
-//发布新商品
+//发布新商品:POST
 //localhost:8080/commodities
 func NewCommodity(c *gin.Context) {
 	log.Println(">>>Public New Commodity<<<")
@@ -60,23 +87,19 @@ func NewCommodity(c *gin.Context) {
 		c.JSON(200, Err.BindingFailedJson)
 		return
 	}
-
 	//write pub_user id
 	id, err := c.Get(msg.IdentityKey)
 	if !err {
-		log.Println("warning: id get failed")
+		c.JSON(200, Err.IdGetFailedJson)
+		return
 	}
 	newCommodity.PubUser = fmt.Sprintf("%v", id)
-
 	//insert commodity
-	if err := model.InsertCommodity(newCommodity); err != nil {
+	if err := models.InsertCommodity(newCommodity); err != nil {
 		c.JSON(200, Err.InsertFailedJson)
 		return
 	}
-	c.JSON(200, gin.H{
-		"success": true,
-		"error":   "",
-		"data":    "ok"})
+	c.JSON(200, successJson)
 }
 
 //某个商品详情 GET
@@ -86,18 +109,15 @@ func DetailCommodity(c *gin.Context) {
 	var id string
 	//binding
 	id = c.Param("id")
-	if id == "" {
-		c.JSON(200, Err.NoKeyJson)
-		return
-	}
+	//check commodity exist
 	ojId, _ := primitive.ObjectIDFromHex(id)
-	res, err := model.FindOneCommodity(bson.M{"_id": ojId})
+	res, err := models.FindOneCommodity(bson.M{"_id": ojId})
 	if err != nil {
-		c.JSON(200, Err.GetFailedJson)
+		c.JSON(200, Err.CommodityNotExistJson)
 		return
 	}
 	//view_count+1
-	if err := model.CommodityUpdate(ojId, "view_count", res.ViewCount+1); err != nil {
+	if err := models.CommodityUpdate(ojId, "view_count", res.ViewCount+1); err != nil {
 		c.JSON(200, Err.GetFailedJson)
 		return
 	}
@@ -111,13 +131,14 @@ func DetailCommodity(c *gin.Context) {
 			"category":      res.Category,
 			"price":         res.Price,
 			"picture":       res.Picture,
-			"view_count":    res.ViewCount,
+			"view_count":    res.ViewCount + 1,
 			"collect_count": res.CollectCount,
 		}})
 
 }
 
-//删除某个商品
+//删除某个商品:DELETE
+//localhost:8080/commodity/:id
 func DeleteCommodity(c *gin.Context) {
 	log.Println(">>>Delete User's Commodity<<<")
 	var commodityId string
@@ -130,24 +151,23 @@ func DeleteCommodity(c *gin.Context) {
 	//get my id
 	myId, err := c.Get(msg.IdentityKey)
 	if !err {
-		log.Println("warning: id get failed")
+		c.JSON(200, Err.IdGetFailedJson)
 		return
 	}
+	//check commodity exist
 	ojId, _ := primitive.ObjectIDFromHex(commodityId)
-	if _, err := model.FindOneCommodity(bson.M{"_id": ojId}); err != nil {
+	if _, err := models.FindOneCommodity(bson.M{"_id": ojId}); err != nil {
 		c.JSON(200, Err.CommodityNotExistJson)
 		return
 	}
-	if _, err := model.FindOneCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
+	//check delete authority
+	if _, err := models.FindOneCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
 		c.JSON(200, Err.DeleteFailedJson)
 		return
 	}
-	if err := model.DeleteCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
-		c.JSON(200, Err.DeleteFailedJson)
+	if err := models.DeleteCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
+		c.JSON(200, Err.GetFailedJson)
 		return
 	}
-	c.JSON(200, gin.H{
-		"success": true,
-		"error":   "",
-		"data":    "ok",})
+	c.JSON(200, successJson)
 }

@@ -1,14 +1,15 @@
-package model
+package models
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"onlineMallsystem/conf/msg"
+	"onlineMallsystem/database"
+	"onlineMallsystem/models/msg"
 )
 
-//new user sign in
+//new user sign up
 func InsertUser(user msg.User) error {
-	if _, err := UserColl.InsertOne(ctx, bson.M{
+	if _, err := database.UserColl.InsertOne(database.Ctx, bson.M{
 		"username":            user.Username,
 		"psw":                 user.Psw,
 		"nickname":            user.Nickname,
@@ -24,7 +25,7 @@ func InsertUser(user msg.User) error {
 //find one user match the given filter
 func FindUser(filter bson.M) (msg.User, error) {
 	Msg := msg.User{}
-	result := UserColl.FindOne(ctx, filter)
+	result := database.UserColl.FindOne(database.Ctx, filter)
 	if err := result.Decode(&Msg); err != nil {
 		return Msg, err
 	}
@@ -33,9 +34,19 @@ func FindUser(filter bson.M) (msg.User, error) {
 
 //update
 func UserUpdate(id primitive.ObjectID, item string, i uint16) error {
-	if _, err := UserColl.UpdateOne(ctx,
+	if _, err := database.UserColl.UpdateOne(database.Ctx,
 		bson.M{"_id": id},
 		bson.M{"$set": bson.M{item: i}}); err != nil {
+		return err
+	}
+	return nil
+}
+
+//update user massage
+func UpdateMsg(id primitive.ObjectID, item string, data string) error {
+	if _, err := database.UserColl.UpdateOne(
+		database.Ctx, bson.M{"_id": id},
+		bson.M{"$set": bson.M{item: data}}); err != nil {
 		return err
 	}
 	return nil
