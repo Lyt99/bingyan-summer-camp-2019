@@ -1,0 +1,40 @@
+TO-DO：
+
+- [x] **注册**：POST /user 
+
+  - [ ] **登录**：POST /user/login	登录部分有问题
+
+- [x] **查看某位用户资料**：GET /user/:id
+
+  
+
+- [x] **查看个人资料**：GET /me
+
+- [x] **修改个人资料**：POST /me：　　　　　　　
+- [ ] **查看我的发布**：GET /me/commodities：　 
+
+- [ ] **查看我的收藏**：GET /me/collections
+
+- [ ] **收藏某个商品**：POST /me/collections
+
+- [ ] **删除某个收藏**：DELETE /me/collections
+
+
+
+- [ ] **获取商品列表**：GET /commodities
+- [ ] **获取热搜词**：GET /commodities/hot
+- [ ] **发布新商品**：POST /commodities                  8
+
+
+
+- [ ] **某个商品详情**：GET /commodity/:id
+- [ ] **删除某个商品**：DELETE /commodity/:id         8
+
+
+
+
+
+```go
+ Checksignup  和     Checklogin   有很大的问题，但是现在不能一直把目光放在这里
+这俩的问题就是无法进行正确的查询！！！
+```

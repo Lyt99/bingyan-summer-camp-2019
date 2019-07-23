@@ -18,7 +18,6 @@ func Signup(c *gin.Context){
 			"error": err.Error(),
 			"data":"",//失败的时候留空
 		})
-
 		return
 	}
 	password := model.AesEncrypt(newuser.Password)//进行加密,密码换成了进行加密之后得到的密码
