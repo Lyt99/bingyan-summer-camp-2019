@@ -89,7 +89,7 @@ func GetmeCommodity(c *gin.Context,username string){
 
 func Commodities(c *gin.Context,findrequest model.Findcommodity)([]model.PostCommodity,error){
 	//创建一个数据结构的数组来存储有相关分类的商品信息，考虑到后面还有keyword，所以多给了10倍
-	commmodity_one := make([]model.PostCommodity,findrequest.Limit*(findrequest.Page+1)*10)
+	commmodity_one := make([]model.PostCommodity,0)
 	//这个就是最终的输出结果存储的位置
 	//commmodity_two := make([]model.Commodity,findrequest.Limit*findrequest.Page+findrequest.Limit)
 	var rows *sql.Rows

@@ -52,7 +52,7 @@ func Deletecommodity(c *gin.Context){
 
 //查询商品的信息，先放一放把，查询方面的事之后再说
 func  Getone_commodityinfo(c *gin.Context){
-	uid := c.Query("id")
+	uid := c.Param("id")
 	id,err := strconv.Atoi(uid)
 	if err!=nil{
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -63,6 +63,7 @@ func  Getone_commodityinfo(c *gin.Context){
 		return
 	}
 	database.Getone_Commodity(c,id)
+	return
 }
 
 func Getcommodities(c *gin.Context){
