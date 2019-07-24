@@ -80,7 +80,8 @@ func main() {
 
 	router.Run(":8080")
 }
-//在postman里面输入localhost:8080/user/wangyj,也就是将name用实际上的值来代替
+//在postman里面输入
+,也就是将name用实际上的值来代替
 //输出Hello wangyj
 //GET localhost:8080/user/wangyj/asdasd
 //输出wangyj is /asdasd

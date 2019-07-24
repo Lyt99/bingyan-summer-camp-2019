@@ -36,22 +36,20 @@ func main(){
 
 	commodity.Use(authMiddleware.MiddlewareFunc())
 	{
+
 		//获得热门查询关键词，可能有问题
 		commodity.POST("hot",controller.Get_hot_keyword)
 
 		//获得单个商品的信息
-		commodity.GET("/:id",controller.Getone_commodityinfo)
+		//commodity.GET("/:id",controller.Getone_commodityinfo)
 	}
 
-	commodities.Use(authMiddleware.MiddlewareFunc())
-	{
-		//用户发布商品
-		commodities.POST("",controller.Postcommodity)
-		//获得商品列表
-		commodities.GET("",controller.Getcommodities)
-	}
+	//用户发布商品
+	commodities.POST("",controller.Postcommodity)
+	//获得商品列表
+	commodities.GET("/commodities",controller.Getcommodities)
 
-	//commodity.GET("/:id",controller.Getone_commodityinfo)
+	router.GET("/:id",controller.Getone_commodityinfo)
 	router.POST("/searchword",controller.Get_hot_keyword)
 	//？？router.POST("/pics",database.Picture)
 	//关于这个上传图片这个功能不是很明白
