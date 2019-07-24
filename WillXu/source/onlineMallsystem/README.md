@@ -18,22 +18,25 @@
 
 ### 开始
 
-1. 初始化MongoDB服务
+1. 拉取项目至本地
+
+   $ git clone 
+
+2. 初始化MongoDB服务
 
 ```bash
 $ source ~/.bashrc
 $ mongod --dbpath /home/sherwin/tools/mongodb/data
-$ mongo
 ```
 
-2. 在终端中打开文件夹并运行
+3. 在终端中打开文件夹并运行
 
 ```bash
 $ cd path/to/project
 $ go run main.go
 ```
 
-3. 通过postman进行接口测试
+4. 通过postman进行接口测试
 
 ### 接口介绍
 

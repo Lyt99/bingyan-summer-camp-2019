@@ -16,8 +16,15 @@ type User struct {
 	Mobile   string `json:"mobile" form:"mobile" binding:"required"`
 	Email    string `json:"email" form:"email" binding:"required"`
 
-	TotalViewCount    uint16 `bson:"total_view_count"`
-	TotalCollectCount uint16 `bson:"total_collect_count"`
+	TotalViewCount    uint16 `bson:"total_view_count"`    //查看商品详情＋１
+	TotalCollectCount uint16 `bson:"total_collect_count"` //收藏商品＋１　　取消收藏－１
+}
+
+type UserUpdate struct {
+	Psw      string `json:"password" form:"password"`
+	Nickname string `json:"nickname" form:"nickname" binding:"required"`
+	Mobile   string `json:"mobile" form:"mobile" binding:"required"`
+	Email    string `json:"email" form:"email" binding:"required"`
 }
 
 type LoginForm struct {
@@ -38,8 +45,8 @@ type Commodity struct {
 	Price    float64 `json:"price" binding:"required"`
 	Picture  string  `json:"picture" binding:"required"`
 
-	ViewCount    uint16 `bson:"view_count"`
-	CollectCount uint16 `bson:"collect_count"`
+	ViewCount    uint16 `bson:"view_count"`    //被查看详情＋１
+	CollectCount uint16 `bson:"collect_count"` //被收藏＋１　被取消－１
 }
 
 type MyCommodity struct {
@@ -57,7 +64,6 @@ type GetCommodity struct {
 type ListCommodity struct {
 	Id       primitive.ObjectID `bson:"_id"`
 	Title    string             `bson:"title"`
-	Desc     string             `bson:"desc"`
 	Category uint16             `bson:"category"`
 	Price    float64            `bson:"price"`
 	Picture  string             `bson:"picture"`

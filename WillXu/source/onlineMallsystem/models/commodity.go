@@ -63,7 +63,7 @@ func GetCommoditiesList(page int, limit int, filter bson.M) ([]msg.ListCommodity
 		return nil, err
 	}
 	// iterate through all documents
-	min := (page - 1) * limit
+	min := page * limit
 	max := min + limit
 	var res []msg.ListCommodity
 	for i := 0; cursor.Next(database.Ctx); i++ {

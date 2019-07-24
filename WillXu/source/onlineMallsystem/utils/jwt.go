@@ -17,7 +17,7 @@ func GetToken() *jwt.GinJWTMiddleware {
 	Taken, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:         "test",
 		Key:           []byte("sherwin"),
-		Timeout:       time.Hour,
+		Timeout:       8 * time.Hour,
 		MaxRefresh:    time.Hour,
 		PayloadFunc:   payload,
 		Authenticator: userCallback,
