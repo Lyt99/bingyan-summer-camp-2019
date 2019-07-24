@@ -47,9 +47,9 @@ func main(){
 	//用户发布商品
 	commodities.POST("",controller.Postcommodity)
 	//获得商品列表
-	commodities.GET("",controller.Getcommodities)
+	commodities.GET("/commodities",controller.Getcommodities)
 
-	//router.GET("/:id",controller.Getone_commodityinfo)
+	router.GET("/:id",controller.Getone_commodityinfo)
 	router.POST("/searchword",controller.Get_hot_keyword)
 	//？？router.POST("/pics",database.Picture)
 	//关于这个上传图片这个功能不是很明白
