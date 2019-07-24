@@ -1,9 +1,7 @@
 package model
 
-
-
 func DBUpdatePersonalInfo(newUserInfo RegisterJSON) error {
-	stmt, err := db.Prepare("UPDATE users SET nickname=?, mobile=?, email=? WHERE username=?")
+	stmt, err := DB.Prepare("UPDATE users SET nickname=?, mobile=?, email=? WHERE username=?")
 	if err != nil {
 		return err
 	}
@@ -17,7 +15,7 @@ func DBUpdatePersonalInfo(newUserInfo RegisterJSON) error {
 }
 
 func DBUpdatePassword(username, password string) error {
-	stmt, err := db.Prepare("UPDATE users SET password=? WHERE username=?")
+	stmt, err := DB.Prepare("UPDATE users SET password=? WHERE username=?")
 	if err != nil {
 		return err
 	}

@@ -108,6 +108,22 @@ func GetUserInfo(c *gin.Context) {
 	c.JSON(200, response)
 }
 
+func GetMyMessages(c *gin.Context) {
+	claims := jwt.ExtractClaims(c)
+	identity := claims["id"].(float64)
+	userID := int(identity)
+	response := ResponseInit()
+	messages, err := model.DBGetUserMessages(userID)
+	if err != nil {
+		dbError(c)
+		return
+	}
+	response["success"] = true
+	response["error"] = ""
+	response["data"] = messages
+	c.JSON(200, response)
+}
+
 func updatePassword(username, password string, c *gin.Context) bool {
 	response := ResponseInit()
 

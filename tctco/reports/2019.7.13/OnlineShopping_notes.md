@@ -48,12 +48,24 @@
 
   ```MYSQL
   CREATE TABLE collections (
-  	id INT(10) AUTO_INCREMENT PRIAMRY KEY,
+  	id INT(10) AUTO_INCREMENT PRIMARY KEY,
       user_id INT(10) NOT NULL,
       commodity_id INT(10) NOT NULL,
       CONSTRAINT fk_user_id FOREIGN KEY (`user_id`) REFERENCES users(id),
       CONSTRAINT fk_commodity_id FOREIGN KEY (`commodity_id`) REFERENCES commodity(id)
   ) CHARACTER SET = utf8
+  ```
+  
+- info
+
+  ```mysql
+  CREATE TABLE `info` (
+      `id` INT(10) AUTO_INCREMENT PRIMARY KEY,
+      `sender_id` INT(10) NOT NULL DEFAULT 0,
+      `info` text NOT NULL, 
+      `receiver_id` INT(10) NOT NULL, 
+      `is_read` TINYINT NOT NULL DEFAULT 0
+) CHARACTER SET = utf8
   ```
   
   

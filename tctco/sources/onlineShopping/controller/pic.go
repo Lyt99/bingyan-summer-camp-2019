@@ -1,15 +1,10 @@
 package controller
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"github.com/gin-gonic/gin"
-	"io"
-	"os"
-	"path/filepath"
-	"strconv"
+	"onlineShopping/model"
+	"onlineShopping/settings"
 	"strings"
-	"time"
 )
 
 func UploadPic(c *gin.Context) {
@@ -27,21 +22,7 @@ func UploadPic(c *gin.Context) {
 		return
 	}
 
-	src, err := file.Open()
-	if err != nil {
-		internalError(c)
-		return
-	}
-	file.Filename = hashFileName(file.Filename)
-	dst, err := os.Create(filepath.Join("./upload", filepath.Base(file.Filename)))
-	if err != nil {
-		internalError(c)
-		return
-	}
-
-	defer dst.Close()
-
-	_, err = io.Copy(dst, src)
+	err = model.OSSavePic(file)
 	if err != nil {
 		internalError(c)
 		return
@@ -57,15 +38,8 @@ func fmtCheckPic(filename string) bool {
 	return false
 }
 
-func hashFileName(filename string) string {
-	m := md5.New()
-	filename = filename
-	m.Write([]byte(filename))
-	extension := filepath.Ext(filename)
-
-	return hex.EncodeToString(m.Sum(nil)) + strconv.FormatInt(time.Now().Unix(), 10) + extension
-}
-
+//this func generates a url, through which users
+//can access the image
 func getImageUrl(filename string) string {
-	return ImagePrefixUrl + ImageSavePath + filename
+	return settings.ImagePrefixUrl + settings.ImageSavePath + filename
 }
