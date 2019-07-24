@@ -12,7 +12,7 @@ type User struct {
 }
 
 type Commodity struct {
-	ID           int     `json:",omitempty"`//no space between , and omitempty!
+	ID           int     `json:",omitempty"` //no space between , and omitempty!
 	Title        string  `json:"title"`
 	Desc         string  `json:"desc"`
 	Category     int     `json:"category"`
@@ -24,11 +24,12 @@ type Commodity struct {
 }
 
 type CommodityBrief struct {
-	ID       int
-	Title    string
-	Price    float64
-	Category int
-	Picture  string
+	ID        int     `json:"id"`
+	Title     string  `json:"title"`
+	Price     float64 `json:"price"`
+	Category  int     `json:"category"`
+	Picture   string  `json:"picture"`
+	Thumbnail string  `json:"thumbnail"`
 }
 
 type RegisterJSON struct {
@@ -56,19 +57,29 @@ type ProductJSON struct {
 }
 
 type SearchJSON struct {
-	PageNo   int    `json:"page" binding: "required"`
-	PageSize int    `json:"limit" binding: "required"`
-	Category int    `json:"category" binding: "required"`
-	Keyword  string `json: "keyword" binding: "required"`
+	PageNo   int    `json:"page"`
+	PageSize int    `json:"limit" binding:"required"`
+	Category int    `json:"category"`
+	Keyword  string `json:"keyword" binding:"required"`
 }
 
 type MyCommodity struct {
-	ID    int    `json: "id"`
-	Title string `json: "title"`
+	ID    int    `json:"id"`
+	Title string `json:"title"`
 }
 
 type MyCollection MyCommodity
 
 type CollectionJSON struct {
-	CommodityID string `json:"id" binding: "required"`
+	CommodityID string `json:"id" binding:"required"`
+}
+
+type Message struct {
+	SenderID int
+	Info     string
+}
+
+type LoginJSON struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }

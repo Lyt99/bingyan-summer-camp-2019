@@ -8,13 +8,13 @@ import (
 	"onlineShopping/model"
 )
 
-type LoginJSON struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+
+func Hello(c *gin.Context) {
+	c.JSON(200, gin.H{"info": "hello"})
 }
 
 func Login(c *gin.Context) (interface{}, error) {
-	var json LoginJSON
+	var json model.LoginJSON
 	response := ResponseInit()
 
 	if err := c.ShouldBindJSON(&json); err != nil {

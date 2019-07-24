@@ -12,6 +12,7 @@ func SearchCommodities(c *gin.Context) {
 	response := ResponseInit()
 	var json model.SearchJSON
 	if err := c.ShouldBindJSON(&json); err != nil {
+		fmt.Println(err)
 		response["error"] = "搜索信息不全或格式错误"
 		c.JSON(400, response)
 		return
@@ -132,6 +133,8 @@ func GetHotWords(c *gin.Context) {
 	c.JSON(200, response)
 }
 
+//this func is used to check whether the
+//format is valid.
 func fmtCheckSearch(json model.SearchJSON, c *gin.Context) bool {
 	response := ResponseInit()
 	if json.PageNo < 0 {

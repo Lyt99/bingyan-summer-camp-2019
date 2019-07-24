@@ -4,9 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const ImagePrefixUrl = "http://127.0.0.1:8080"
-const ImageSavePath = "/upload/"
-
 func ResponseInit() Response {
 	response := make(Response)
 	response["success"] = false

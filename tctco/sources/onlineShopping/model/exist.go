@@ -3,7 +3,7 @@ package model
 import "fmt"
 
 func DBIsCollectionExist(userID, commodityID int) (bool, error) {
-	rows, err := db.Query("SELECT * FROM collections WHERE user_id=? AND commodity_id=?", userID, commodityID)
+	rows, err := DB.Query("SELECT * FROM collections WHERE user_id=? AND commodity_id=?", userID, commodityID)
 	if err != nil {
 		fmt.Println(err)
 		return false, err
@@ -12,7 +12,7 @@ func DBIsCollectionExist(userID, commodityID int) (bool, error) {
 }
 
 func DBIsCommodityExist(id int) (int, error) {
-	rows, err := db.Query("SELECT pub_user FROM commodities WHERE id=?", id)
+	rows, err := DB.Query("SELECT pub_user FROM commodities WHERE id=?", id)
 	if err != nil {
 		fmt.Println(err)
 		return 0, err
@@ -26,9 +26,9 @@ func DBIsCommodityExist(id int) (int, error) {
 }
 
 func DBIsUserExist(username string) (bool, error) {
-	rows, err := db.Query("SELECT * FROM users WHERE username=?", username)
+	rows, err := DB.Query("SELECT * FROM users WHERE username=?", username)
 	if err != nil {
-		fmt.Println("db query fail")
+		fmt.Println("DB query fail")
 		return false, err
 	}
 

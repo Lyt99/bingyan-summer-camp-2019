@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+//this func is used to get all the
+//current user's collections
 func GetMyCollections(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	identity, _ := claims["id"]
@@ -70,7 +72,7 @@ func AddToCollections(c *gin.Context) {
 	c.JSON(200, response)
 }
 
-func DeleteFromCollections (c *gin.Context) {
+func DeleteFromCollections(c *gin.Context) {
 	var json model.CollectionJSON
 	response := ResponseInit()
 	claims := jwt.ExtractClaims(c)
