@@ -10,6 +10,7 @@ import (
 	"onlineMallsystem/models"
 	"onlineMallsystem/models/Err"
 	"onlineMallsystem/models/msg"
+	"onlineMallsystem/utils"
 )
 
 var successJson = map[string]interface{}{
@@ -17,7 +18,6 @@ var successJson = map[string]interface{}{
 	"error":   "",
 	"data":    "ok"}
 
-//>>>>>注册与登录接口无中间件认证<<<<<
 //注册:POST
 //localhost:8080/user
 func SignUp(c *gin.Context) {
@@ -32,6 +32,15 @@ func SignUp(c *gin.Context) {
 	filter := bson.M{"username": newUser.Username}
 	if _, err := models.FindUser(filter); err == nil {
 		c.JSON(200, Err.UserExistJson)
+		return
+	}
+	//check mobile&email
+	if !utils.CheckMobile(newUser.Mobile){
+		c.JSON(200, Err.InvalidMobileJson)
+		return
+	}
+	if !utils.CheckEmail(newUser.Email){
+		c.JSON(200, Err.InvalidEmailJson)
 		return
 	}
 	//encode psw to md5 before insert
@@ -50,7 +59,6 @@ func SignUp(c *gin.Context) {
 //localhost:8080/user/login
 //引用jwt库中自定函数LoginHandler
 
-//>>>>>下方接口均添加jwt中间件认证<<<<<
 //查看某位用户资料:Get
 //localhost:8080/user/:id
 func ShowUser(c *gin.Context) {

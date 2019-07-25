@@ -15,6 +15,7 @@ import (
 	"path"
 	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 //获取商品列表:GET
@@ -26,7 +27,7 @@ func GetCommodities(c *gin.Context) {
 	list.Page, _ = strconv.Atoi(c.Query("page"))
 	list.Limit, _ = strconv.Atoi(c.Query("limit"))
 	list.Category, _ = strconv.Atoi(c.DefaultQuery("category", "0"))
-	list.Keyword = c.DefaultQuery("keyword", "")
+	list.Keyword = strings.TrimSpace(c.DefaultQuery("keyword", ""))
 	//keyword
 	if list.Keyword != "" {
 		key := msg.Key{Keyword: list.Keyword, Count: 1}

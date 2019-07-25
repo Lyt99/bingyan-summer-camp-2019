@@ -59,3 +59,13 @@ var PicNotSelectedJson = map[string]interface{}{
 	"success": false,
 	"error":   "错误：未选择任何图片",
 	"data":    ""}
+
+var InvalidMobileJson = map[string]interface{}{
+	"success": false,
+	"error":   "错误：手机号码格式错误",
+	"data":    ""}
+
+var InvalidEmailJson = map[string]interface{}{
+	"success": false,
+	"error":   "错误：邮箱地址格式错误",
+	"data":    ""}
