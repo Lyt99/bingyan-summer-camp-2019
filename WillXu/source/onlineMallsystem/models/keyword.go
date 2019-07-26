@@ -8,6 +8,7 @@ import (
 	"onlineMallsystem/models/msg"
 )
 
+//find key:if find,then count+1,else insert one
 func KeyFunc(key msg.Key) error {
 	//find key
 	res, err := FindOneKeyword(key.Keyword)
@@ -49,7 +50,7 @@ func FindOneKeyword(key string) (msg.Key, error) {
 	return res, nil
 }
 
-//find key:if find,then count+1,else insert one
+//update key
 func UpdateKeyword(key string, count uint16) error {
 	if _, err := database.KeywordColl.UpdateOne(database.Ctx,
 		bson.M{"keyword": key},

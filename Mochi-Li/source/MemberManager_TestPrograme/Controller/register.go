@@ -1,3 +1,0 @@
-package Controller
-
-func Get()

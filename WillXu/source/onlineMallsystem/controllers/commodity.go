@@ -1,15 +1,21 @@
 package controllers
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/xid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"io/ioutil"
 	"log"
 	"onlineMallsystem/models"
 	"onlineMallsystem/models/Err"
 	"onlineMallsystem/models/msg"
+	"path"
+	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 //获取商品列表:GET
@@ -21,7 +27,7 @@ func GetCommodities(c *gin.Context) {
 	list.Page, _ = strconv.Atoi(c.Query("page"))
 	list.Limit, _ = strconv.Atoi(c.Query("limit"))
 	list.Category, _ = strconv.Atoi(c.DefaultQuery("category", "0"))
-	list.Keyword = c.DefaultQuery("keyword", "")
+	list.Keyword = strings.TrimSpace(c.DefaultQuery("keyword", ""))
 	//keyword
 	if list.Keyword != "" {
 		key := msg.Key{Keyword: list.Keyword, Count: 1}
@@ -31,7 +37,7 @@ func GetCommodities(c *gin.Context) {
 		}
 	}
 	//check input err
-	if list.Page <= 0 || list.Limit <= 0||list.Category<0||list.Category>9 {
+	if list.Page < 0 || list.Limit <= 0 || list.Category < 0 || list.Category > 9 {
 		c.JSON(200, Err.BindingFailedJson)
 		return
 	}
@@ -87,6 +93,11 @@ func NewCommodity(c *gin.Context) {
 		c.JSON(200, Err.BindingFailedJson)
 		return
 	}
+	//check price
+	if newCommodity.Price < 0 {
+		c.JSON(200, Err.BindingFailedJson)
+		return
+	}
 	//write pub_user id
 	id, err := c.Get(msg.IdentityKey)
 	if !err {
@@ -116,10 +127,29 @@ func DetailCommodity(c *gin.Context) {
 		c.JSON(200, Err.CommodityNotExistJson)
 		return
 	}
-	//view_count+1
+	//commodity view_count+1
 	if err := models.CommodityUpdate(ojId, "view_count", res.ViewCount+1); err != nil {
 		c.JSON(200, Err.GetFailedJson)
 		return
+	}
+	//user total_view_count+1
+	if myId, err := c.Get(msg.IdentityKey); !err {
+		c.JSON(200, Err.IdGetFailedJson)
+		return
+	} else {
+		stringId := fmt.Sprintf("%v", myId)
+		ojId, _ := primitive.ObjectIDFromHex(stringId)
+		//find user
+		res, err := models.FindUser(bson.M{"_id": ojId})
+		if err != nil {
+			c.JSON(200, Err.UserNotExistJson)
+			return
+		}
+		//total_view_count+1
+		if err := models.UserUpdate(ojId, "total_view_count", res.TotalViewCount+1); err != nil {
+			c.JSON(200, Err.GetFailedJson)
+			return
+		}
 	}
 	c.JSON(200, gin.H{
 		"success": true,
@@ -161,13 +191,51 @@ func DeleteCommodity(c *gin.Context) {
 		return
 	}
 	//check delete authority
-	if _, err := models.FindOneCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
+	if res, err := models.FindOneCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
 		c.JSON(200, Err.DeleteFailedJson)
 		return
+	} else {
+		//delete pic ***not return***
+		name := path.Base(res.Picture)
+		fmt.Println("delete" + name)
+		if err := models.DelPic(name); err != nil {
+			log.Println("pic delete failed")
+		}
 	}
+	//delete commodity
 	if err := models.DeleteCommodity(bson.M{"_id": ojId, "pub_id": myId}); err != nil {
 		c.JSON(200, Err.GetFailedJson)
 		return
 	}
 	c.JSON(200, successJson)
+}
+
+//上传图片:POST
+//localhost:8080/pics
+func UploadPic(c *gin.Context) {
+	//name := ctx.PostForm("name")
+	// Source
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(200, Err.PicNotSelectedJson)
+		return
+	}
+	//init file key
+	id := xid.New()
+	filename := filepath.Base(file.Filename)
+	name := id.String() + path.Ext(filename)
+	fmt.Println("upload" + name)
+
+	//generate file path
+	fileContent, _ := file.Open()
+	byteContainer, err := ioutil.ReadAll(fileContent)
+	f := bytes.NewReader(byteContainer)
+	//put pic
+	if err := models.PutPic(name, f); err != nil {
+		c.JSON(200, Err.PutPicFailedJson)
+		return
+	}
+	c.JSON(200, gin.H{
+		"url": "https://demo-1258020847.cos.ap-chengdu.myqcloud.com/" + name,
+	})
 }

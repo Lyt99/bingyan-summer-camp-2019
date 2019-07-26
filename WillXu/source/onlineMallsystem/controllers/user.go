@@ -10,6 +10,7 @@ import (
 	"onlineMallsystem/models"
 	"onlineMallsystem/models/Err"
 	"onlineMallsystem/models/msg"
+	"onlineMallsystem/utils"
 )
 
 var successJson = map[string]interface{}{
@@ -17,7 +18,6 @@ var successJson = map[string]interface{}{
 	"error":   "",
 	"data":    "ok"}
 
-//>>>>>注册与登录接口无中间件认证<<<<<
 //注册:POST
 //localhost:8080/user
 func SignUp(c *gin.Context) {
@@ -32,6 +32,15 @@ func SignUp(c *gin.Context) {
 	filter := bson.M{"username": newUser.Username}
 	if _, err := models.FindUser(filter); err == nil {
 		c.JSON(200, Err.UserExistJson)
+		return
+	}
+	//check mobile&email
+	if !utils.CheckMobile(newUser.Mobile){
+		c.JSON(200, Err.InvalidMobileJson)
+		return
+	}
+	if !utils.CheckEmail(newUser.Email){
+		c.JSON(200, Err.InvalidEmailJson)
 		return
 	}
 	//encode psw to md5 before insert
@@ -50,7 +59,6 @@ func SignUp(c *gin.Context) {
 //localhost:8080/user/login
 //引用jwt库中自定函数LoginHandler
 
-//>>>>>下方接口均添加jwt中间件认证<<<<<
 //查看某位用户资料:Get
 //localhost:8080/user/:id
 func ShowUser(c *gin.Context) {
@@ -72,11 +80,6 @@ func ShowUser(c *gin.Context) {
 	res, err := models.FindUser(bson.M{"_id": ojId})
 	if err != nil {
 		c.JSON(200, Err.UserNotExistJson)
-		return
-	}
-	//total_view_count+1
-	if err := models.UserUpdate(ojId, "total_view_count", res.TotalViewCount+1); err != nil {
-		c.JSON(200, Err.GetFailedJson)
 		return
 	}
 	c.JSON(200, gin.H{
@@ -125,7 +128,7 @@ func ShowMe(c *gin.Context) {
 //localhost:8080/me
 func UpdateMe(c *gin.Context) {
 	log.Println(">>>Update My Message<<<")
-	newData := msg.User{}
+	newData := msg.UserUpdate{}
 	//bind sign massage
 	if err := c.ShouldBind(&newData); err != nil {
 		c.JSON(200, Err.BindingFailedJson)
@@ -145,18 +148,6 @@ func UpdateMe(c *gin.Context) {
 		return
 	}
 	//update
-	if newData.Username != res.Username {
-		//check username availability
-		filter := bson.M{"username": newData.Username}
-		if _, err := models.FindUser(filter); err == nil {
-			c.JSON(200, Err.UserExistJson)
-			return
-		}
-		if err := models.UpdateMsg(ojId, "username", newData.Username); err != nil {
-			c.JSON(200, Err.GetFailedJson)
-			return
-		}
-	}
 	if newData.Nickname != res.Nickname {
 		if err := models.UpdateMsg(ojId, "nickname", newData.Nickname); err != nil {
 			c.JSON(200, Err.GetFailedJson)
@@ -175,7 +166,11 @@ func UpdateMe(c *gin.Context) {
 			return
 		}
 	}
-	if newData.Psw != res.Psw {
+	if newData.Psw != res.Psw && newData.Psw != "" {
+		//encode psw to md5 before insert
+		pswMd5 := md5.New()
+		pswMd5.Write([]byte(newData.Psw))
+		newData.Psw = string(pswMd5.Sum(nil))
 		if err := models.UpdateMsg(ojId, "psw", newData.Psw); err != nil {
 			c.JSON(200, Err.GetFailedJson)
 			return
@@ -283,7 +278,7 @@ func NewCollection(c *gin.Context) {
 	c.JSON(200, successJson)
 }
 
-//删除某个收藏:DELETE
+//取消某个收藏:DELETE
 func DeleteCollection(c *gin.Context) {
 	log.Println(">>>Delete Collection<<<")
 	delCollection := msg.Collection{}
@@ -311,12 +306,12 @@ func DeleteCollection(c *gin.Context) {
 		c.JSON(200, Err.DeleteFailedJson)
 		return
 	}
-	//commodity collect_count+1
+	//commodity collect_count-1
 	if err := models.CommodityUpdate(ojId, "collect_count", res.CollectCount-1); err != nil {
 		c.JSON(200, Err.GetFailedJson)
 		return
 	}
-	//user collect_count+1
+	//user collect_count-1
 	ojUserId, _ := primitive.ObjectIDFromHex(stringId)
 	user, _ := models.FindUser(bson.M{"_id": ojUserId})
 	if err := models.UserUpdate(ojUserId, "total_collect_count", user.TotalCollectCount-1); err != nil {
